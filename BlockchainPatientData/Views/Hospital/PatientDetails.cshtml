@@ -1,0 +1,208 @@
+@model BlockchainPatientData.Models.Patient
+@{
+    ViewData["Title"] = "Patient Details";
+    var bills = ViewBag.Bills as List<BlockchainPatientData.Models.Bill> ?? new List<BlockchainPatientData.Models.Bill>();
+    var totalBills = ViewBag.TotalBills ?? 0m;
+}
+
+<div style="min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        
+        @if (ViewBag.Error != null)
+        {
+            <div style="background-color: #f8d7da; color: #721c24; padding: 20px; border-radius: 10px; border-left: 4px solid #dc3545; margin-bottom: 20px;">
+                <strong>❌ Error:</strong> @ViewBag.Error
+            </div>
+        }
+
+        @if (Model == null)
+        {
+            <div style="background: white; border-radius: 20px; padding: 60px; text-align: center;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">❌</div>
+                <h2 style="color: #4a5568; margin-bottom: 10px;">Patient Not Found</h2>
+                <p style="color: #718096; margin-bottom: 30px;">The requested patient could not be found in the system.</p>
+                <a href="/Hospital/Dashboard" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        }
+        else
+        {
+            <!-- Patient Info Card -->
+            <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; margin-bottom: 30px;">
+                
+                <!-- Header -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; color: white;">
+                    <h2 style="margin: 0 0 10px 0; font-size: 2rem; font-weight: 600;">👤 Patient Details</h2>
+                    <p style="margin: 0; opacity: 0.9;">Complete patient information and medical records</p>
+                </div>
+
+                <div style="padding: 30px;">
+                    <!-- NFT Health ID Banner -->
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 20px; border-radius: 15px; color: white; margin-bottom: 30px; text-align: center;">
+                        <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">🎫 NFT Health ID</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; font-family: 'Courier New', monospace;">@Model.NFT_ID</div>
+                    </div>
+
+                    <!-- Patient Information Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div style="background: #f7fafc; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea;">
+                            <div style="color: #718096; font-size: 0.9rem; margin-bottom: 5px;">Full Name</div>
+                            <div style="color: #2d3748; font-size: 1.3rem; font-weight: 600;">@Model.Name</div>
+                        </div>
+
+                        <div style="background: #f7fafc; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea;">
+                            <div style="color: #718096; font-size: 0.9rem; margin-bottom: 5px;">Age</div>
+                            <div style="color: #2d3748; font-size: 1.3rem; font-weight: 600;">@Model.Age years</div>
+                        </div>
+
+                        <div style="background: #f7fafc; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea;">
+                            <div style="color: #718096; font-size: 0.9rem; margin-bottom: 5px;">Gender</div>
+                            <div style="color: #2d3748; font-size: 1.3rem; font-weight: 600;">@Model.Gender</div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.BloodGroup))
+                        {
+                            <div style="background: #f7fafc; padding: 20px; border-radius: 12px; border-left: 4px solid #f56565;">
+                                <div style="color: #718096; font-size: 0.9rem; margin-bottom: 5px;">Blood Group</div>
+                                <div style="color: #2d3748; font-size: 1.3rem; font-weight: 600;">🩸 @Model.BloodGroup</div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Contact Information -->
+                    @if (!string.IsNullOrEmpty(Model.PhoneNumber) || !string.IsNullOrEmpty(Model.Email) || !string.IsNullOrEmpty(Model.Address))
+                    {
+                        <div style="background: #f7fafc; padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+                            <h3 style="margin: 0 0 20px 0; color: #2d3748; font-size: 1.2rem;">📞 Contact Information</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                                {
+                                    <div>
+                                        <div style="color: #718096; font-size: 0.85rem; margin-bottom: 3px;">Phone</div>
+                                        <div style="color: #2d3748; font-weight: 500;">📱 @Model.PhoneNumber</div>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Email))
+                                {
+                                    <div>
+                                        <div style="color: #718096; font-size: 0.85rem; margin-bottom: 3px;">Email</div>
+                                        <div style="color: #2d3748; font-weight: 500;">📧 @Model.Email</div>
+                                    </div>
+                                }
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Address))
+                            {
+                                <div style="margin-top: 15px;">
+                                    <div style="color: #718096; font-size: 0.85rem; margin-bottom: 3px;">Address</div>
+                                    <div style="color: #2d3748; font-weight: 500;">🏠 @Model.Address</div>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <div style="text-align: center; color: #718096; font-size: 0.9rem;">
+                        Registered on @Model.CreatedAt.ToString("MMMM dd, yyyy 'at' hh:mm tt")
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bills Section -->
+            <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden;">
+                
+                <!-- Header -->
+                <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 30px; color: white;">
+                    <h2 style="margin: 0 0 10px 0; font-size: 2rem; font-weight: 600;">💰 Billing Records</h2>
+                    <p style="margin: 0; opacity: 0.9;">All bills associated with this patient</p>
+                </div>
+
+                <div style="padding: 30px;">
+                    @if (bills.Count == 0)
+                    {
+                        <div style="text-align: center; padding: 40px 20px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📄</div>
+                            <h3 style="color: #4a5568; margin-bottom: 10px;">No Bills Found</h3>
+                            <p style="color: #718096; margin-bottom: 20px;">This patient has no billing records yet.</p>
+                            <a href="/Hospital/AddBill" 
+                               style="display: inline-block; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;"
+                               onmouseover="this.style.opacity='0.9'"
+                               onmouseout="this.style.opacity='1'">
+                                ➕ Create Bill
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Bill Summary -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                            <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 20px; border-radius: 15px; color: white;">
+                                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">Total Bills</div>
+                                <div style="font-size: 2rem; font-weight: 700;">@bills.Count</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); padding: 20px; border-radius: 15px; color: white;">
+                                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">Total Amount</div>
+                                <div style="font-size: 2rem; font-weight: 700;">$@totalBills.ToString("N2")</div>
+                            </div>
+                        </div>
+
+                        <!-- Bills List -->
+                        <div style="overflow-x: auto; border-radius: 12px; border: 2px solid #e2e8f0;">
+                            <table style="width: 100%; border-collapse: collapse; background: white;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Bill ID</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Description</th>
+                                        <th style="padding: 15px; text-align: right; font-weight: 600;">Amount</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Date</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Blockchain Hash</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var bill in bills)
+                                    {
+                                        <tr style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;"
+                                            onmouseover="this.style.backgroundColor='#f7fafc'"
+                                            onmouseout="this.style.backgroundColor='white'">
+                                            <td style="padding: 15px; font-weight: 500; color: #4facfe;">#@bill.BillID</td>
+                                            <td style="padding: 15px; color: #4a5568;">@bill.Description</td>
+                                            <td style="padding: 15px; text-align: right; font-weight: 600; color: #2d3748;">$@bill.Amount.ToString("N2")</td>
+                                            <td style="padding: 15px; color: #718096; font-size: 0.9rem;">@bill.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                            <td style="padding: 15px;">
+                                                <div style="background: #f7fafc; padding: 8px 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.85rem; color: #4a5568; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" 
+                                                     title="@bill.Hash">
+                                                    🔗 @bill.Hash?.Substring(0, 16)...
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <!-- Actions -->
+                    <div style="margin-top: 30px; text-align: center;">
+                        <a href="/Hospital/Dashboard" 
+                           style="display: inline-block; background: #e2e8f0; color: #4a5568; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500; margin-right: 10px;"
+                           onmouseover="this.style.backgroundColor='#cbd5e0'"
+                           onmouseout="this.style.backgroundColor='#e2e8f0'">
+                            ← Back to Dashboard
+                        </a>
+                        <a href="/Hospital/ViewPatients" 
+                           style="display: inline-block; background: #e2e8f0; color: #4a5568; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500; margin-right: 10px;"
+                           onmouseover="this.style.backgroundColor='#cbd5e0'"
+                           onmouseout="this.style.backgroundColor='#e2e8f0'">
+                            All Patients
+                        </a>
+                        <a href="/Hospital/AddBill" 
+                           style="display: inline-block; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;"
+                           onmouseover="this.style.opacity='0.9'"
+                           onmouseout="this.style.opacity='1'">
+                            ➕ Create Bill for This Patient
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

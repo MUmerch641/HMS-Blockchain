@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Blockchain Verification";
+    var bill = ViewBag.Bill as BlockchainPatientData.Models.Bill;
+}
+
+<div style="min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; display: flex; align-items: center;">
+    <div style="max-width: 800px; margin: 0 auto; width: 100%;">
+        <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px; text-align: center; color: white;">
+                <div style="font-size: 5rem; margin-bottom: 15px;">🔗</div>
+                <h2 style="margin: 0 0 10px 0; font-size: 2rem; font-weight: 600;">Blockchain Verified</h2>
+                <p style="margin: 0; opacity: 0.9; font-size: 1.1rem;">@ViewBag.Message</p>
+            </div>
+
+            <div style="padding: 40px;">
+                @if (bill != null)
+                {
+                    <div style="background: #f7fafc; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                        <h3 style="margin: 0 0 20px 0; color: #2d3748;">Bill Information</h3>
+                        <div style="margin-bottom: 15px;">
+                            <span style="color: #718096;">Bill ID:</span>
+                            <strong style="color: #2d3748; margin-left: 10px;">#@bill.BillID</strong>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <span style="color: #718096;">Amount:</span>
+                            <strong style="color: #2d3748; margin-left: 10px;">$@bill.Amount.ToString("N2")</strong>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <span style="color: #718096;">Description:</span>
+                            <strong style="color: #2d3748; margin-left: 10px;">@bill.Description</strong>
+                        </div>
+                    </div>
+
+                    <div style="background: #d1fae5; padding: 20px; border-radius: 12px; border-left: 4px solid #10b981;">
+                        <div style="color: #065f46; font-weight: 600; margin-bottom: 10px;">Blockchain Hash</div>
+                        <div style="font-family: monospace; color: #047857; word-break: break-all; font-size: 0.9rem;">@bill.Hash</div>
+                    </div>
+                }
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="/Insurance/Dashboard" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

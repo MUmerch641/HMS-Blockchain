@@ -1,0 +1,51 @@
+@model BlockchainPatientData.Models.Patient
+@{
+    ViewData["Title"] = "NFT Health ID";
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 40px 20px; display: flex; align-items: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="max-width: 700px; margin: 0 auto; width: 100%;">
+        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 50px 30px; text-align: center; color: white;">
+                <div style="font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 20px;">🎫</div>
+                <h2 style="margin: 0 0 15px 0; font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700;">NFT Health ID</h2>
+                <p style="margin: 0; opacity: 0.9; font-size: clamp(0.95rem, 2vw, 1.1rem);">Blockchain-Verified Digital Identity</p>
+            </div>
+
+            <div style="padding: 50px 40px; text-align: center;">
+                <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                    <div style="color: white; opacity: 0.9; margin-bottom: 10px; font-size: 0.9rem;">Your Unique Health ID</div>
+                    <div style="color: white; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 2px;">@Model.NFT_ID</div>
+                </div>
+
+                <div style="background: #F7FAFC; padding: 25px; border-radius: 12px; margin-bottom: 25px; text-align: left;">
+                    <h3 style="margin: 0 0 15px 0; color: #2C3E50;">Patient Information</h3>
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: #7F8C8D;">Name:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">@Model.Name</strong>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: #7F8C8D;">Patient ID:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">#@Model.PatientID</strong>
+                    </div>
+                    <div>
+                        <span style="color: #7F8C8D;">Registered:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">@Model.CreatedAt.ToString("MMMM dd, yyyy")</strong>
+                    </div>
+                </div>
+
+                <div style="background: #D1FAE5; padding: 20px; border-radius: 12px; border-left: 4px solid #10B981; text-align: left;">
+                    <h4 style="margin: 0 0 10px 0; color: #2C3E50;">🔒 Blockchain Security</h4>
+                    <p style="margin: 0; color: #2C3E50; font-size: 0.9rem;">@ViewBag.Message</p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <a href="/Patient/Dashboard/@Model.PatientID" style="display: inline-block; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 15px 40px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+                        ← Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

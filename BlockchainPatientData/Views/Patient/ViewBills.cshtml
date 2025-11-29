@@ -1,0 +1,74 @@
+@model List<BlockchainPatientData.Models.Bill>
+@{
+    ViewData["Title"] = "View Bills";
+    var patient = ViewBag.Patient as BlockchainPatientData.Models.Patient;
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 30px; color: white;">
+                <h2 style="margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600;">💰 My Bills</h2>
+                <p style="margin: 5px 0 0 0; opacity: 0.9;">@patient?.Name - All billing records</p>
+            </div>
+
+            <div style="padding: 30px;">
+                @if (Model == null || !Model.Any())
+                {
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <h3 style="color: #2C3E50;">No Bills Found</h3>
+                        <p style="color: #7F8C8D;">You don't have any billing records yet.</p>
+                    </div>
+                }
+                else
+                {
+                    <div style="background: #E7F3FF; padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center; border-left: 4px solid #0078D7;">
+                        <div style="color: #2C3E50; font-size: 0.9rem; margin-bottom: 5px; font-weight: 500;">Total Bill Amount</div>
+                        <div style="color: #0078D7; font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 700;">$@ViewBag.TotalAmount.ToString("N2")</div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #2C3E50; color: white;">
+                                    <th style="padding: 15px; text-align: left;">Bill ID</th>
+                                    <th style="padding: 15px; text-align: left;">Description</th>
+                                    <th style="padding: 15px; text-align: right;">Amount</th>
+                                    <th style="padding: 15px; text-align: left;">Date</th>
+                                    <th style="padding: 15px; text-align: left;">Hash</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var bill in Model)
+                                {
+                                    <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s;"
+                                        onmouseover="this.style.backgroundColor='#F7FAFC'"
+                                        onmouseout="this.style.backgroundColor='white'">
+                                        <td style="padding: 15px; font-weight: 600; color: #0078D7;">#@bill.BillID</td>
+                                        <td style="padding: 15px; color: #2C3E50;">@bill.Description</td>
+                                        <td style="padding: 15px; text-align: right; font-weight: 600; color: #2C3E50;">$@bill.Amount.ToString("N2")</td>
+                                        <td style="padding: 15px; color: #7F8C8D;">@bill.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                        <td style="padding: 15px;">
+                                            <div style="font-family: 'Courier New', monospace; font-size: 0.85rem; color: #2C3E50;">@bill.Hash?.Substring(0, 16)...</div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="/Patient/Dashboard/@patient?.PatientID" 
+                       style="display: inline-block; background: #E2E8F0; color: #2C3E50; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;"
+                       onmouseover="this.style.backgroundColor='#CBD5E0'; this.style.transform='translateY(-2px)'"
+                       onmouseout="this.style.backgroundColor='#E2E8F0'; this.style.transform='translateY(0)'">
+                        ← Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

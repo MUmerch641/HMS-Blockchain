@@ -1,0 +1,223 @@
+@model BlockchainPatientData.Models.Patient
+
+@{
+    ViewData["Title"] = "Add New Patient";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body style="margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); min-height:100vh;">
+
+    <div style="max-width:900px; margin:50px auto; padding:0 20px;">
+        <div style="background:#fff; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,0.12); overflow:hidden; border:1px solid #e2e8f0;">
+            
+            <!-- HEADER -->
+            <div style="background:linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color:#fff; padding:30px 20px; text-align:center; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%); pointer-events:none;"></div>
+                <h3 style="margin:0; font-size:2.1rem; font-weight:700; position:relative; z-index:1;">Register New Patient</h3>
+                <p style="margin:10px 0 0; font-size:1.05rem; opacity:0.9;">Create secure NFT-based Health ID</p>
+            </div>
+
+            <!-- FORM BODY -->
+            <div style="padding:38px;">
+
+                <!-- ERROR ALERT -->
+                @if (ViewBag.Error != null)
+                {
+                    <div style="background:#f8d7da; color:#721c24; padding:16px 22px; border-radius:12px; border-left:5px solid #dc3545; margin-bottom:25px; font-weight:600; display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:1.5rem;">Error</span>
+                        <span>@ViewBag.Error</span>
+                    </div>
+                }
+
+                <!-- MODELSTATE ERRORS -->
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div style="background:#fff3cd; color:#856404; padding:16px 22px; border-radius:12px; border-left:5px solid #ffc107; margin-bottom:25px; font-weight:600;">
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <span style="font-size:1.5rem;">Warning</span>
+                            <strong>Validation Failed</strong>
+                        </div>
+                        <ul style="margin:8px 0 0; padding-left:22px; font-size:0.95rem;">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <!-- POSTBACK DATA NOTICE -->
+                @if (!string.IsNullOrEmpty(Model?.Name))
+                {
+                    <div style="background:#d1ecf1; color:#0c5460; padding:16px 22px; border-radius:12px; border-left:5px solid #17a2b8; margin-bottom:25px; font-weight:500;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:1.4rem;">Info</span>
+                            <strong>Form Data Retained:</strong>
+                            <span style="font-family:monospace; background:#f8f9fa; padding:2px 6px; border-radius:4px;">
+                                @Model.Name, @Model.Age yrs, @Model.Gender
+                            </span>
+                        </div>
+                    </div>
+                }
+
+                <form method="post" action="/Hospital/AddPatient" id="patientForm" style="display:grid; gap:24px;">
+
+                    <!-- FULL NAME -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">
+                            Full Name <span style="color:#e53e3e;">*</span>
+                        </label>
+                        <input type="text" name="Name" id="nameInput" required placeholder="Enter full name" value="@Model?.Name"
+                               style="width:calc(100% - 32px); padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; box-sizing:border-box;"
+                               onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                               onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                    </div>
+
+                    <!-- AGE & GENDER -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                        <div>
+                            <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">
+                                Age <span style="color:#e53e3e;">*</span>
+                            </label>
+                            <input type="number" name="Age" id="ageInput" required min="1" max="150" placeholder="e.g., 35" value="@Model?.Age"
+                                   style="width:calc(100% - 32px); padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; box-sizing:border-box;"
+                                   onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                                   onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">
+                                Gender <span style="color:#e53e3e;">*</span>
+                            </label>
+                            <select name="Gender" id="genderSelect" required
+                                    style="width:100%; padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"8\" viewBox=\"0 0 12 8\"><path fill=\"%236b7280\" d=\"M0 0l6 8 6-8z\"/></svg>'); background-repeat:no-repeat; background-position:right 16px center; box-sizing:border-box;"
+                                    onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                                    onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';">
+                                <option value="">Select Gender</option>
+                                <option value="Male" selected="@(Model?.Gender == "Male")">Male</option>
+                                <option value="Female" selected="@(Model?.Gender == "Female")">Female</option>
+                                <option value="Other" selected="@(Model?.Gender == "Other")">Other / Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- PHONE & EMAIL -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                        <div>
+                            <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Phone Number</label>
+                            <input type="tel" name="PhoneNumber" placeholder="+92 300 1234567" value="@Model?.PhoneNumber"
+                                   style="width:calc(100% - 32px); padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; box-sizing:border-box;"
+                                   onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                                   onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Email Address</label>
+                            <input type="email" name="Email" placeholder="patient@example.com" value="@Model?.Email"
+                                   style="width:calc(100% - 32px); padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; box-sizing:border-box;"
+                                   onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                                   onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                        </div>
+                    </div>
+
+                    <!-- BLOOD GROUP -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Blood Group</label>
+                        <select name="BloodGroup"
+                                style="width:100%; padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"8\" viewBox=\"0 0 12 8\"><path fill=\"%236b7280\" d=\"M0 0l6 8 6-8z\"/></svg>'); background-repeat:no-repeat; background-position:right 16px center; box-sizing:border-box;"
+                                onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                                onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';">
+                            <option value="">Select Blood Group</option>
+                            <option value="A+" selected="@(Model?.BloodGroup == "A+")">A+</option>
+                            <option value="A-" selected="@(Model?.BloodGroup == "A-")">A-</option>
+                            <option value="B+" selected="@(Model?.BloodGroup == "B+")">B+</option>
+                            <option value="B-" selected="@(Model?.BloodGroup == "B-")">B-</option>
+                            <option value="O+" selected="@(Model?.BloodGroup == "O+")">O+</option>
+                            <option value="O-" selected="@(Model?.BloodGroup == "O-")">O-</option>
+                            <option value="AB+" selected="@(Model?.BloodGroup == "AB+")">AB+</option>
+                            <option value="AB-" selected="@(Model?.BloodGroup == "AB-")">AB-</option>
+                        </select>
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Address</label>
+                        <textarea name="Address" rows="3" placeholder="House #, Street, City, Province" 
+                                  style="width:calc(100% - 32px); padding:14px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; font-family:inherit; resize:vertical; background:#fff; transition:all .25s; box-sizing:border-box;"
+                                  onfocus="this.style.borderColor='#0d6efd'; this.style.boxShadow='0 0 0 4px rgba(13,110,253,0.15)';"
+                                  onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';">@Model?.Address</textarea>
+                    </div>
+
+                    <!-- NFT INFO BOX -->
+                    <div style="background:linear-gradient(135deg, #e7f3ff 0%, #cfe2ff 100%); color:#084298; padding:18px 22px; border-radius:12px; border-left:5px solid #0d6efd; margin:28px 0; font-weight:500;">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                            <span style="font-size:1.6rem;">NFT</span>
+                            <strong>Blockchain Health ID</strong>
+                        </div>
+                        <ul style="margin:8px 0 0; padding-left:24px; font-size:0.95rem; line-height:1.6;">
+                            <li>Unique <strong>NFT ID</strong> generated on-chain</li>
+                            <li>Immutable identity linked to patient records</li>
+                            <li>Used for all future bills & insurance claims</li>
+                            <li>Viewable in Patient Portal after registration</li>
+                        </ul>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div style="display:grid; gap:14px; margin-top:10px;">
+                        <button type="submit"
+                                style="width:100%; padding:17px; background:linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color:#fff; border:none; border-radius:12px; font-size:1.18rem; font-weight:700; cursor:pointer; transition:all .3s; box-shadow:0 4px 16px rgba(13,110,253,0.3); position:relative; overflow:hidden;"
+                                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 28px rgba(13,110,253,0.4)';"
+                                onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 16px rgba(13,110,253,0.3)';">
+                            <span style="position:relative; z-index:2;">Register Patient & Generate NFT ID</span>
+                            <span style="position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition:0.6s;" 
+                                  onmouseover="this.style.left='100%'" 
+                                  onmouseout="this.style.left='-100%'"></span>
+                        </button>
+
+                        <a href="/Hospital/Dashboard"
+                           style="display:block; text-align:center; padding:14px; background:#718096; color:#fff; border-radius:12px; text-decoration:none; font-weight:600; transition:all .3s;"
+                           onmouseover="this.style.background='#5a677a'; this.style.transform='translateY(-1px)';"
+                           onmouseout="this.style.background='#718096'; this.style.transform='';">
+                            Cancel & Return to Dashboard
+                        </a>
+                    </div>
+                </form>
+
+                <!-- DEBUG SCRIPT (REMOVE IN PRODUCTION) -->
+                <script>
+                    document.getElementById('patientForm').addEventListener('submit', function(e) {
+                        console.clear();
+                        console.log('%c=== PATIENT REGISTRATION SUBMIT ===', 'color:#0d6efd; font-weight:bold; font-size:1.1rem;');
+                        const form = e.target;
+                        console.log('Name:', form.Name.value);
+                        console.log('Age:', form.Age.value);
+                        console.log('Gender:', form.Gender.value);
+                        console.log('Phone:', form.PhoneNumber.value);
+                        console.log('Email:', form.Email.value);
+                        console.log('Blood Group:', form.BloodGroup.value);
+                        console.log('Address:', form.Address.value);
+                        console.log('Form Valid:', form.checkValidity());
+                        
+                        if (!form.checkValidity()) {
+                            e.preventDefault();
+                            alert('Please fill all required fields: Name, Age, and Gender.');
+                        } else {
+                            console.log('%cSubmitting to /Hospital/AddPatient...', 'color:#198754; font-weight:bold;');
+                        }
+                    });
+
+                    // Auto-focus first field
+                    window.addEventListener('load', () => {
+                        document.getElementById('nameInput').focus();
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

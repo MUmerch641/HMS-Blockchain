@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Blockchain HMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.6;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+        
+        .navbar-menu a:hover {
+            opacity: 0.8;
+        }
+        
+        .badge {
+            background-color: #198754;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        footer .text-muted {
+            color: #adb5bd !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="/" class="navbar-brand">
+                    <strong>🏥 HMS Blockchain</strong>
+                </a>
+                <ul class="navbar-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Hospital/Dashboard">Hospital</a></li>
+                    <li><a href="/Insurance/Dashboard">Insurance</a></li>
+                    <li><a href="/Patient/Login">Patient Portal</a></li>
+                    <li><span class="badge">Blockchain Active</span></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main style="min-height: calc(100vh - 300px);">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <p style="margin-bottom: 10px; font-weight: 600; font-size: 1.1rem;">
+            <strong>Blockchain-Based Patient Data Management System</strong>
+        </p>
+        <p style="margin-bottom: 10px;">
+            Final Year Project | ASP.NET Core + SQL Server + Blockchain Simulation
+        </p>
+        <p class="text-muted" style="margin-top: 15px; font-size: 0.9rem;">
+            &copy; 2025 - Secured with SHA256 Blockchain Technology
+        </p>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

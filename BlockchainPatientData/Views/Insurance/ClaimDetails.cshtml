@@ -1,0 +1,392 @@
+@model BlockchainPatientData.Models.InsuranceClaim
+@{
+    ViewData["Title"] = "Claim Details";
+    var patient = ViewBag.Patient as BlockchainPatientData.Models.Patient;
+    var bill = ViewBag.Bill as BlockchainPatientData.Models.Bill;
+    var estimatedPayout = ViewBag.EstimatedPayout ?? 0m;
+    var fraudResult = ViewBag.FraudResult as BlockchainPatientData.Services.FraudDetectionResult;
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 30px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        
+        @if (Model == null)
+        {
+            <div style="background: #FFFFFF; border-radius: 12px; padding: 60px; text-align: center; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);">
+                <div style="font-size: 4rem; margin-bottom: 20px;">❌</div>
+                <h2 style="color: #2C3E50;">Claim Not Found</h2>
+                <a href="/Insurance/Dashboard" style="display: inline-block; margin-top: 20px; background: #0078D7; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#005A9E'" onmouseout="this.style.backgroundColor='#0078D7'">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        }
+        else
+        {
+            <!-- Claim Header -->
+            <div style="background: #FFFFFF; border-radius: 12px; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08); overflow: hidden; margin-bottom: 30px;">
+                <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 35px 30px; color: white;">
+                    <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600;">📋 Claim #@Model.ClaimID</h2>
+                    <p style="margin: 0; opacity: 0.95; font-size: clamp(0.9rem, 2vw, 1rem);">Detailed claim verification and analysis</p>
+                </div>
+
+                <div style="padding: 30px;">
+                    <!-- Success/Error Messages -->
+                    @if (TempData["Success"] != null)
+                    {
+                        <div style="background: #E8F8F5; color: #16A085; padding: 18px 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #16A085; font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.05rem);">
+                            ✅ @TempData["Success"]
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div style="background: #FEF2F2; color: #E74C3C; padding: 18px 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #E74C3C; font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.05rem);">
+                            ❌ @TempData["Error"]
+                        </div>
+                    }
+
+                    <!-- AI FRAUD DETECTION - MOVED TO TOP FOR PROMINENCE -->
+                    @if (fraudResult != null)
+                    {
+                        var riskScore = fraudResult.RiskScore;
+                        string riskLevel, riskColor, riskBg, riskIcon;
+                        
+                        if (riskScore >= 70) { 
+                            riskLevel = "⚠️ CRITICAL RISK - FRAUD DETECTED"; 
+                            riskColor = "#E74C3C"; 
+                            riskBg = "#FEF2F2"; 
+                            riskIcon = "🔴";
+                        }
+                        else if (riskScore >= 50) { 
+                            riskLevel = "⚠️ HIGH RISK - SUSPICIOUS"; 
+                            riskColor = "#E67E22"; 
+                            riskBg = "#FEF5E7"; 
+                            riskIcon = "🟠";
+                        }
+                        else if (riskScore >= 30) { 
+                            riskLevel = "⚠️ MEDIUM RISK - REVIEW NEEDED"; 
+                            riskColor = "#F1C40F"; 
+                            riskBg = "#FFFBEA"; 
+                            riskIcon = "🟡";
+                        }
+                        else { 
+                            riskLevel = "✅ SAFE - NO FRAUD DETECTED"; 
+                            riskColor = "#16A085"; 
+                            riskBg = "#E8F8F5"; 
+                            riskIcon = "🟢";
+                        }
+
+                        <div style="background: @riskBg; padding: 28px; border-radius: 12px; margin-bottom: 30px; border: 3px solid @riskColor; box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                                <h3 style="margin: 0; color: @riskColor; display: flex; align-items: center; gap: 12px; font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 700;">
+                                    <span style="font-size: clamp(2rem, 5vw, 3rem);">@riskIcon</span>
+                                    <span>🤖 AI FRAUD DETECTION</span>
+                                </h3>
+                                <div style="background: @riskColor; color: white; padding: 14px 28px; border-radius: 25px; font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 800; text-align: center; box-shadow: 0 3px 12px rgba(0,0,0,0.15);">
+                                    RISK: @riskScore%
+                                </div>
+                            </div>
+
+                            <div style="background: #FFFFFF; padding: 20px; border-radius: 10px; border-left: 5px solid @riskColor; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                <h4 style="margin: 0 0 8px 0; color: @riskColor; font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 700;">@riskLevel</h4>
+                                <p style="margin: 0; color: #2C3E50; font-size: clamp(0.9rem, 1.8vw, 1rem); line-height: 1.5;">@fraudResult.Recommendation</p>
+                            </div>
+
+                            @if (fraudResult.Reasons != null && fraudResult.Reasons.Any())
+                            {
+                                <div style="background: #FFFFFF; padding: 22px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                    <h4 style="margin: 0 0 18px 0; color: #2C3E50; font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 700; display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: clamp(1.2rem, 2.5vw, 1.5rem);">🚨</span>
+                                        <span>FRAUD INDICATORS (@fraudResult.Reasons.Count)</span>
+                                    </h4>
+                                    <ul style="margin: 0; padding-left: 0; list-style: none;">
+                                        @foreach (var reason in fraudResult.Reasons)
+                                        {
+                                            <li style="margin-bottom: 12px; padding: 14px; background: @riskBg; border-radius: 8px; border-left: 4px solid @riskColor;">
+                                                <span style="color: @riskColor; font-size: clamp(0.9rem, 1.8vw, 1.05rem); font-weight: 600; display: flex; align-items: start; gap: 10px;">
+                                                    <span style="font-size: clamp(1rem, 2vw, 1.2rem);">⚠️</span>
+                                                    <span>@reason</span>
+                                                </span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="background: #FFFFFF; padding: 22px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                    <p style="margin: 0; color: #16A085; font-weight: 700; font-size: clamp(1rem, 2vw, 1.15rem);">
+                                        ✅ No fraud indicators detected. This claim appears legitimate.
+                                    </p>
+                                </div>
+                            }
+
+                            @if (fraudResult.RiskScore >= 30)
+                            {
+                                <div style="background: #FFFBEA; color: #F39C12; padding: 18px 22px; border-radius: 10px; margin-top: 18px; border: 2px solid #F1C40F; box-shadow: 0 2px 8px rgba(241, 196, 15, 0.2);">
+                                    <strong style="font-size: clamp(0.95rem, 1.8vw, 1.05rem); display: flex; align-items: start; gap: 10px; line-height: 1.5;">
+                                        <span style="font-size: clamp(1.2rem, 2.5vw, 1.4rem);">⚠️</span>
+                                        <span>MANUAL REVIEW REQUIRED: This claim has been flagged and MUST be verified by an insurance officer before approval.</span>
+                                    </strong>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <!-- Status Banner -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 25px;">
+                        <div style="background: @(Model.Status == "Approved" ? "#E8F8F5" : Model.Status == "Rejected" ? "#FEF2F2" : Model.Status == "Under Review" ? "#EBF5FB" : "#FFFBEA"); padding: 20px; border-radius: 10px; border-left: 4px solid @(Model.Status == "Approved" ? "#16A085" : Model.Status == "Rejected" ? "#E74C3C" : Model.Status == "Under Review" ? "#3498DB" : "#F1C40F"); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
+                            <div style="font-size: clamp(1.2rem, 2.5vw, 1.4rem); font-weight: 700; color: @(Model.Status == "Approved" ? "#16A085" : Model.Status == "Rejected" ? "#E74C3C" : Model.Status == "Under Review" ? "#3498DB" : "#F39C12");">@Model.Status</div>
+                        </div>
+
+                        <div style="background: #F5F6FA; padding: 20px; border-radius: 10px; border-left: 4px solid #0078D7; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Claim Amount</div>
+                            <div style="font-size: clamp(1.2rem, 2.5vw, 1.4rem); font-weight: 700; color: #2C3E50;">$@Model.Amount.ToString("N2")</div>
+                        </div>
+
+                        <div style="background: #F5F6FA; padding: 20px; border-radius: 10px; border-left: 4px solid #16A085; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Estimated Payout</div>
+                            <div style="font-size: clamp(1.2rem, 2.5vw, 1.4rem); font-weight: 700; color: #16A085;">$@estimatedPayout.ToString("N2")</div>
+                        </div>
+
+                        <div style="background: @(Model.IsFraudSuspected ? "#FEF2F2" : "#E8F8F5"); padding: 20px; border-radius: 10px; border-left: 4px solid @(Model.IsFraudSuspected ? "#E74C3C" : "#16A085"); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Fraud Detection</div>
+                            <div style="font-size: clamp(1.2rem, 2.5vw, 1.4rem); font-weight: 700; color: @(Model.IsFraudSuspected ? "#E74C3C" : "#16A085");">
+                                @(Model.IsFraudSuspected ? "🚨 Suspected" : "✓ Clear")
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Claim Details -->
+                    <div style="background: #F5F6FA; padding: 24px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #E0E0E0;">
+                        <h3 style="margin: 0 0 18px 0; color: #2C3E50; font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600;">Claim Information</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+                            <div>
+                                <span style="color: #7F8C8D; font-size: 0.9rem; font-weight: 500;">Patient ID:</span>
+                                <strong style="color: #2C3E50; margin-left: 10px; font-size: 1rem;">@Model.PatientID</strong>
+                            </div>
+                            <div>
+                                <span style="color: #7F8C8D; font-size: 0.9rem; font-weight: 500;">Bill ID:</span>
+                                <strong style="color: #2C3E50; margin-left: 10px; font-size: 1rem;">@Model.BillID</strong>
+                            </div>
+                            <div>
+                                <span style="color: #7F8C8D; font-size: 0.9rem; font-weight: 500;">Claim Date:</span>
+                                <strong style="color: #2C3E50; margin-left: 10px; font-size: 1rem;">@Model.ClaimDate.ToString("MMM dd, yyyy")</strong>
+                            </div>
+                            <div>
+                                <span style="color: #7F8C8D; font-size: 0.9rem; font-weight: 500;">Auto-Triggered:</span>
+                                <strong style="color: #2C3E50; margin-left: 10px; font-size: 1rem;">@(Model.IsAutoTriggered ? "🤖 Yes" : "Manual")</strong>
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.Remarks))
+                        {
+                            <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #E0E0E0;">
+                                <span style="color: #7F8C8D; font-size: 0.9rem; font-weight: 500;">Remarks:</span>
+                                <p style="color: #2C3E50; margin: 8px 0 0 0; line-height: 1.6;">@Model.Remarks</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Details -->
+            @if (patient != null)
+            {
+                <div style="background: #FFFFFF; border-radius: 12px; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08); overflow: hidden; margin-bottom: 25px;">
+                    <div style="background: linear-gradient(135deg, #16A085 0%, #138D75 100%); padding: 22px 28px; color: white;">
+                        <h3 style="margin: 0; font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600;">👤 Patient Information</h3>
+                    </div>
+                    <div style="padding: 24px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Name</div>
+                                <div style="color: #2C3E50; font-weight: 600;">@patient.Name</div>
+                            </div>
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Age</div>
+                                <div style="color: #2C3E50; font-weight: 600;">@patient.Age years</div>
+                            </div>
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Gender</div>
+                                <div style="color: #2C3E50; font-weight: 600;">@patient.Gender</div>
+                            </div>
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">NFT Health ID</div>
+                                <div style="color: #0078D7; font-weight: 600; font-family: 'Courier New', monospace; font-size: 0.9rem;">@patient.NFT_ID</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Bill Details -->
+            @if (bill != null)
+            {
+                <div style="background: #FFFFFF; border-radius: 12px; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08); overflow: hidden; margin-bottom: 25px;">
+                    <div style="background: linear-gradient(135deg, #F1C40F 0%, #F39C12 100%); padding: 22px 28px; color: white;">
+                        <h3 style="margin: 0; font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600;">💰 Bill Details</h3>
+                    </div>
+                    <div style="padding: 24px;">
+                        <div style="margin-bottom: 14px;">
+                            <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Description</div>
+                            <div style="color: #2C3E50; font-weight: 600;">@bill.Description</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Amount</div>
+                                <div style="color: #2C3E50; font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.25rem);">$@bill.Amount.ToString("N2")</div>
+                            </div>
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Bill Date</div>
+                                <div style="color: #2C3E50; font-weight: 600;">@bill.CreatedAt.ToString("MMM dd, yyyy")</div>
+                            </div>
+                            <div>
+                                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 6px; font-weight: 500;">Blockchain Hash</div>
+                                <div style="color: #0078D7; font-weight: 600; font-family: 'Courier New', monospace; font-size: 0.85rem; word-break: break-all;">@bill.Hash?.Substring(0, 20)...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Actions -->
+            <div style="text-align: center; padding: 20px;">
+                <!-- Show Approve/Reject/Under Review buttons for Pending claims -->
+                @if (Model.Status == "Pending")
+                {
+                    <form method="post" action="/Insurance/MarkUnderReview" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="claimId" value="@Model.ClaimID" />
+                        <button type="submit" 
+                                style="background: #F1C40F; color: white; padding: 14px 32px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px rgba(241, 196, 15, 0.3);"
+                                onmouseover="this.style.backgroundColor='#F39C12'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(241, 196, 15, 0.4)'"
+                                onmouseout="this.style.backgroundColor='#F1C40F'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(241, 196, 15, 0.3)'"
+                                onclick="return confirm('Mark this claim as Under Review?')">
+                            🔍 Mark Under Review
+                        </button>
+                    </form>
+
+                    <form method="post" action="/Insurance/ApproveClaim" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="claimId" value="@Model.ClaimID" />
+                        <button type="submit" 
+                                style="background: #16A085; color: white; padding: 14px 32px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px rgba(22, 160, 133, 0.3);"
+                                onmouseover="this.style.backgroundColor='#138D75'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(22, 160, 133, 0.4)'"
+                                onmouseout="this.style.backgroundColor='#16A085'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(22, 160, 133, 0.3)'"
+                                onclick="return confirm('Are you sure you want to APPROVE this claim?')">
+                            ✅ Approve Claim
+                        </button>
+                    </form>
+
+                    <button type="button" 
+                            onclick="showRejectModal()"
+                            style="background: #E74C3C; color: white; padding: 14px 32px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; margin-right: 10px; transition: all 0.3s; box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);"
+                            onmouseover="this.style.backgroundColor='#C0392B'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(231, 76, 60, 0.4)'"
+                            onmouseout="this.style.backgroundColor='#E74C3C'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(231, 76, 60, 0.3)'">
+                        ❌ Reject Claim
+                    </button>
+                }
+
+                <!-- Show Approve/Reject buttons for Under Review claims -->
+                @if (Model.Status == "Under Review")
+                {
+                    <div style="background: #FFFBEA; padding: 18px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #F1C40F;">
+                        <p style="margin: 0 0 16px 0; color: #F39C12; font-weight: 600; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                            🔍 This claim is currently under manual review. Take action below:
+                        </p>
+                    </div>
+
+                    <form method="post" action="/Insurance/ApproveClaim" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="claimId" value="@Model.ClaimID" />
+                        <button type="submit" 
+                                style="background: #16A085; color: white; padding: 14px 32px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px rgba(22, 160, 133, 0.3);"
+                                onmouseover="this.style.backgroundColor='#138D75'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(22, 160, 133, 0.4)'"
+                                onmouseout="this.style.backgroundColor='#16A085'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(22, 160, 133, 0.3)'"
+                                onclick="return confirm('Are you sure you want to APPROVE this claim?')">
+                            ✅ Approve Claim
+                        </button>
+                    </form>
+
+                    <button type="button" 
+                            onclick="showRejectModal()"
+                            style="background: #E74C3C; color: white; padding: 14px 32px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; margin-right: 10px; transition: all 0.3s; box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);"
+                            onmouseover="this.style.backgroundColor='#C0392B'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(231, 76, 60, 0.4)'"
+                            onmouseout="this.style.backgroundColor='#E74C3C'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(231, 76, 60, 0.3)'">
+                        ❌ Reject Claim
+                    </button>
+                }
+                
+                <a href="/Insurance/ViewClaims" 
+                   style="display: inline-block; background: #7F8C8D; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 500; margin-right: 10px; transition: all 0.3s; font-size: 0.95rem;"
+                   onmouseover="this.style.backgroundColor='#6C7A89'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.backgroundColor='#7F8C8D'; this.style.transform='translateY(0)'">
+                    ← Back to Claims
+                </a>
+                <a href="/Insurance/Dashboard" 
+                   style="display: inline-block; background: #0078D7; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s; font-size: 0.95rem;"
+                   onmouseover="this.style.backgroundColor='#005A9E'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.backgroundColor='#0078D7'; this.style.transform='translateY(0)'">
+                    Dashboard
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Rejection Modal -->
+<div id="rejectModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: #FFFFFF; border-radius: 12px; padding: 35px; max-width: 500px; width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
+        <h3 style="margin: 0 0 18px 0; color: #2C3E50; font-size: clamp(1.2rem, 2.5vw, 1.4rem); font-weight: 600;">Reject Claim</h3>
+        <p style="color: #7F8C8D; margin-bottom: 18px; font-size: clamp(0.9rem, 1.8vw, 0.95rem);">Please provide a reason for rejecting this claim:</p>
+        
+        <form method="post" action="/Insurance/RejectClaim">
+            <input type="hidden" name="claimId" value="@Model?.ClaimID" />
+            <textarea name="reason" 
+                      rows="4" 
+                      placeholder="Enter rejection reason..."
+                      style="width: 100%; padding: 12px; border: 2px solid #E0E0E0; border-radius: 8px; font-size: 0.95rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; margin-bottom: 20px; transition: border-color 0.3s;"
+                      onfocus="this.style.borderColor='#0078D7'"
+                      onblur="this.style.borderColor='#E0E0E0'"
+                      required></textarea>
+            
+            <div style="text-align: right;">
+                <button type="button" 
+                        onclick="hideRejectModal()"
+                        style="background: #E0E0E0; color: #2C3E50; padding: 11px 26px; border-radius: 8px; border: none; font-weight: 500; cursor: pointer; margin-right: 10px; font-size: 0.95rem; transition: all 0.3s;"
+                        onmouseover="this.style.backgroundColor='#D0D0D0'"
+                        onmouseout="this.style.backgroundColor='#E0E0E0'">
+                    Cancel
+                </button>
+                <button type="submit" 
+                        style="background: #E74C3C; color: white; padding: 11px 26px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.3s; box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);"
+                        onmouseover="this.style.backgroundColor='#C0392B'"
+                        onmouseout="this.style.backgroundColor='#E74C3C'">
+                    Confirm Rejection
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showRejectModal() {
+        document.getElementById('rejectModal').style.display = 'flex';
+    }
+    
+    function hideRejectModal() {
+        document.getElementById('rejectModal').style.display = 'none';
+    }
+    
+    // Success/Error message display
+    @if (TempData["Success"] != null)
+    {
+        <text>
+        alert('@TempData["Success"]');
+        </text>
+    }
+    
+    @if (TempData["Error"] != null)
+    {
+        <text>
+        alert('@TempData["Error"]');
+        </text>
+    }
+</script>

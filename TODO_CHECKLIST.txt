@@ -1,0 +1,145 @@
+# ✅ SIMPLE CHECKLIST - WHAT TO DO NOW
+
+## 📥 PHASE 1: DOWNLOAD & INSTALL (Do Today)
+
+### 1. Install .NET 6.0 SDK ⭐ CRITICAL
+- [ ] Go to: https://dotnet.microsoft.com/download/dotnet/6.0
+- [ ] Download .NET SDK x64 for Windows
+- [ ] Run installer
+- [ ] Close and reopen PowerShell
+
+### 2. Install SQL Server Express ⭐ CRITICAL
+- [ ] Go to: https://www.microsoft.com/sql-server/sql-server-downloads
+- [ ] Download "Express" edition
+- [ ] Run installer, choose "Basic"
+- [ ] Note down the server name (usually: localhost\SQLEXPRESS)
+
+### 3. Install SQL Server Management Studio (SSMS) ⭐ CRITICAL
+- [ ] Go to: https://aka.ms/ssmsfullsetup
+- [ ] Download and install
+- [ ] This is used to run database setup
+
+### 4. Install Visual Studio 2022 Community (Recommended)
+- [ ] Go to: https://visualstudio.microsoft.com/downloads/
+- [ ] Download "Community" edition (FREE)
+- [ ] During install, select: "ASP.NET and web development"
+- [ ] Wait 30 minutes for installation
+
+### 5. RESTART Your Computer ⭐ REQUIRED
+- [ ] Restart after all installations complete
+
+---
+
+## 🗄️ PHASE 2: SETUP DATABASE (After Restart)
+
+- [ ] Open SQL Server Management Studio (SSMS)
+- [ ] Connect to: `localhost\SQLEXPRESS` (or your server name)
+- [ ] File → Open → File
+- [ ] Navigate to your Desktop
+- [ ] Open: `HMS_Blockchain_Project\Database\setup.sql`
+- [ ] Press F5 or click Execute
+- [ ] Check: Database "PatientDataDB" appears in Object Explorer
+- [ ] ✅ Database setup complete!
+
+---
+
+## 💻 PHASE 3: RUN THE PROJECT (After Database Setup)
+
+- [ ] Open Visual Studio 2022
+- [ ] File → Open → Project/Solution
+- [ ] Navigate to: Desktop → HMS_Blockchain_Project → BlockchainPatientData
+- [ ] Open: `BlockchainPatientData.csproj`
+- [ ] Wait for packages to restore (see status bar)
+- [ ] Open `appsettings.json` and verify connection string
+- [ ] Press F5 or click the green Play button
+- [ ] Browser should open with your application!
+- [ ] ✅ Project running!
+
+---
+
+## 🎯 PHASE 4: TEST THE APPLICATION
+
+- [ ] Homepage loads with 3 portals
+- [ ] Click "Hospital Portal"
+- [ ] Click "Add Patient"
+- [ ] Fill form and register a patient
+- [ ] See NFT Health ID generated
+- [ ] Click "Create Bill"
+- [ ] Enter amount 15000 (to trigger insurance)
+- [ ] See blockchain hash displayed
+- [ ] See "Insurance Auto-Triggered" message
+- [ ] Click "Insurance Portal" → See the claim
+- [ ] ✅ All features working!
+
+---
+
+## 📚 PHASE 5: PREPARE FOR VIVA
+
+- [ ] Read: `Documentation\VivaQA.md` (27 questions with answers)
+- [ ] Read: `Documentation\Architecture.md` (system design)
+- [ ] Practice demo 2-3 times
+- [ ] Understand key concepts:
+  - [ ] Blockchain (hash chaining, immutability)
+  - [ ] Smart Contracts (auto-insurance logic)
+  - [ ] AI Fraud Detection (risk scoring)
+  - [ ] NFT Health IDs (unique patient tokens)
+- [ ] ✅ Ready for viva!
+
+---
+
+## ⏱️ TIME ESTIMATE
+
+- Downloads & Installations: **2 hours**
+- Database setup: **10 minutes**
+- Run project: **5 minutes**
+- Testing: **15 minutes**
+- Study for viva: **2-3 hours**
+- **TOTAL: 4-5 hours spread over 1-2 days**
+
+---
+
+## 🆘 IF YOU GET STUCK
+
+### Installation Issues:
+- Make sure you have admin rights
+- Disable antivirus temporarily
+- Run installers as Administrator
+
+### Database Issues:
+- Check SQL Server service is running
+- Try connection string: `Server=(localdb)\\MSSQLLocalDB;...`
+
+### Build Issues:
+- Right-click project → Restore NuGet Packages
+- Clean and rebuild (Ctrl+Shift+B)
+
+### Questions:
+- Check `INSTALLATION_GUIDE.md` for detailed help
+- Check `QUICKSTART.md` for quick reference
+
+---
+
+## 🎊 CURRENT STATUS
+
+✅ **COMPLETED:**
+- All 29 code files created
+- Complete database schema ready
+- Comprehensive documentation prepared
+
+⏳ **TODO:**
+- Install software (YOU ARE HERE 👈)
+- Setup database
+- Run and test project
+
+---
+
+## 🚀 START HERE:
+
+**RIGHT NOW**: Open your browser and go to:
+👉 https://dotnet.microsoft.com/download/dotnet/6.0
+
+Download and install .NET SDK first, then continue with the rest!
+
+---
+
+**Good luck! You're almost there! 🏆**

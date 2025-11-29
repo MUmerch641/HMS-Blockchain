@@ -1,0 +1,111 @@
+@model List<BlockchainPatientData.Models.Patient>
+
+@{
+    ViewData["Title"] = "All Patients";
+}
+
+<div style="max-width: 1400px; margin: 40px auto; padding: 0 20px;">
+    <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 2.5rem; color: #1a202c; font-weight: 700; margin-bottom: 10px;">👥 All Patients</h1>
+        <p style="font-size: 1.2rem; color: #6c757d; margin-bottom: 20px;">Browse all registered patients with NFT Health IDs</p>
+        <hr style="border: none; border-top: 2px solid #dee2e6; margin: 20px 0;" />
+    </div>
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <div style="background-color: #cfe2ff; color: #084298; padding: 20px 25px; border-radius: 10px; border-left: 4px solid #0d6efd;">
+            <h4 style="margin: 0 0 10px 0;">No Patients Found</h4>
+            <p style="margin: 0;">No patients have been registered yet. <a href="/Hospital/AddPatient" style="color: #084298; font-weight: 600; text-decoration: underline;">Register a new patient</a> to get started.</p>
+        </div>
+    }
+    else
+    {
+        <div style="background: white; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); overflow: hidden; margin-bottom: 30px;">
+            <div style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color: white; padding: 20px;">
+                <h4 style="margin: 0; font-weight: 600;">Registered Patients (@Model.Count)</h4>
+            </div>
+            <div style="padding: 25px; overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #343a40; color: white;">
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Patient ID</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Name</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">NFT Health ID</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Age</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Gender</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Phone</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Registration Date</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var patient in Model)
+                        {
+                            <tr style="transition: background-color 0.2s ease;"
+                                onmouseover="this.style.backgroundColor='#e3f2fd';"
+                                onmouseout="this.style.backgroundColor='white';">
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;"><strong>@patient.PatientID</strong></td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;">@patient.Name</td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;">
+                                    <code style="background-color: #d4edda; padding: 4px 8px; border-radius: 4px; color: #155724; font-family: 'Courier New', monospace; font-weight: 600;">@patient.NFT_ID</code>
+                                </td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;">@patient.Age</td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;">
+                                    @if (patient.Gender == "Male")
+                                    {
+                                        <span style="background-color: #0dcaf0; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">♂ @patient.Gender</span>
+                                    }
+                                    else if (patient.Gender == "Female")
+                                    {
+                                        <span style="background-color: #d63384; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">♀ @patient.Gender</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="background-color: #6c757d; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">@patient.Gender</span>
+                                    }
+                                </td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;">@patient.PhoneNumber</td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6;">@patient.CreatedAt.ToString("dd MMM yyyy")</td>
+                                <td style="padding: 12px 15px; border-bottom: 1px solid #dee2e6; white-space: nowrap;">
+                                    <a href="/Hospital/PatientDetails/@patient.PatientID" 
+                                       style="background-color: #0d6efd; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.875rem; font-weight: 500; display: inline-block; margin-right: 5px; transition: all 0.2s ease;"
+                                       onmouseover="this.style.backgroundColor='#0a58ca'; this.style.transform='translateY(-1px)';"
+                                       onmouseout="this.style.backgroundColor='#0d6efd'; this.style.transform='translateY(0)';">
+                                        📋 View Details
+                                    </a>
+                                    <a href="/Hospital/EditPatient/@patient.PatientID" 
+                                       style="background-color: #fd7e14; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.875rem; font-weight: 500; display: inline-block; margin-right: 5px; transition: all 0.2s ease;"
+                                       onmouseover="this.style.backgroundColor='#e8590c'; this.style.transform='translateY(-1px)';"
+                                       onmouseout="this.style.backgroundColor='#fd7e14'; this.style.transform='translateY(0)';">
+                                        ✏️ Edit
+                                    </a>
+                                    <a href="/Hospital/AddBill?patientId=@patient.PatientID" 
+                                       style="background-color: #198754; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.875rem; font-weight: 500; display: inline-block; transition: all 0.2s ease;"
+                                       onmouseover="this.style.backgroundColor='#146c43'; this.style.transform='translateY(-1px)';"
+                                       onmouseout="this.style.backgroundColor='#198754'; this.style.transform='translateY(0)';">
+                                        💰 Create Bill
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="/Hospital/Dashboard" 
+               style="padding: 12px 24px; background-color: #6c757d; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;"
+               onmouseover="this.style.backgroundColor='#5a6268';"
+               onmouseout="this.style.backgroundColor='#6c757d';">
+                ← Back to Dashboard
+            </a>
+            <a href="/Hospital/AddPatient" 
+               style="padding: 12px 24px; background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(13, 110, 253, 0.3)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                + Register New Patient
+            </a>
+        </div>
+    }
+</div>

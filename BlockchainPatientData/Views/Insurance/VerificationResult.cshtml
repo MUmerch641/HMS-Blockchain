@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Verification Result";
+    var patient = ViewBag.Patient as BlockchainPatientData.Models.Patient;
+    var bills = ViewBag.Bills as List<BlockchainPatientData.Models.Bill> ?? new List<BlockchainPatientData.Models.Bill>();
+    var claims = ViewBag.Claims as List<BlockchainPatientData.Models.InsuranceClaim> ?? new List<BlockchainPatientData.Models.InsuranceClaim>();
+    var totalBills = ViewBag.TotalBills ?? 0m;
+    var totalClaims = ViewBag.TotalClaims ?? 0m;
+}
+
+<div style="min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; color: white;">
+                <h2 style="margin: 0; font-size: 2rem; font-weight: 600;">✅ Verification Result</h2>
+            </div>
+
+            <div style="padding: 30px;">
+                <div style="background: #d1fae5; padding: 20px; border-radius: 12px; border-left: 4px solid #10b981; margin-bottom: 30px;">
+                    <h3 style="margin: 0 0 10px 0; color: #065f46;">Patient Verified Successfully</h3>
+                    <p style="margin: 0; color: #059669;"><strong>@patient?.Name</strong> (Patient ID: @patient?.PatientID)</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 12px;">
+                        <div style="color: #718096; margin-bottom: 5px;">Total Bills</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #2d3748;">$@totalBills.ToString("N0")</div>
+                    </div>
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 12px;">
+                        <div style="color: #718096; margin-bottom: 5px;">Total Claims</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #2d3748;">$@totalClaims.ToString("N0")</div>
+                    </div>
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 12px;">
+                        <div style="color: #718096; margin-bottom: 5px;">Number of Bills</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #2d3748;">@bills.Count</div>
+                    </div>
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 12px;">
+                        <div style="color: #718096; margin-bottom: 5px;">Number of Claims</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #2d3748;">@claims.Count</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="/Insurance/VerifyClaim" style="display: inline-block; background: #e2e8f0; color: #4a5568; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500; margin-right: 10px;">
+                        Verify Another
+                    </a>
+                    <a href="/Insurance/Dashboard" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;">
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+HMS BLOCKCHAIN PROJECT - FILES LOCATION
+==================================================
+
+Your project is at:
+C:\Users\SHARJAH LAPTOPS\OneDrive\Desktop\HMS_Blockchain_Project
+
+Folders created:
+? Database
+? Documentation
+? BlockchainPatientData
+  +-- Controllers
+  +-- Models
+  +-- Services
+  +-- Views (Home, Hospital, Shared)
+  +-- wwwroot (css, js)
+
+Next: I will create all 35+ code files for you.
+
+Created: 11/01/2025 20:01:55
+

@@ -1,0 +1,144 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = BlockchainPatientData
+build_property.RootNamespace = BlockchainPatientData
+build_property.ProjectDir = C:\Users\SHARJAH LAPTOPS\OneDrive\Desktop\HMS_Blockchain_Project\BlockchainPatientData\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\SHARJAH LAPTOPS\OneDrive\Desktop\HMS_Blockchain_Project\BlockchainPatientData
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/AddBill.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcQWRkQmlsbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/AddPatient.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcQWRkUGF0aWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/BillSuccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcQmlsbFN1Y2Nlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/EditPatient.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcRWRpdFBhdGllbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/PatientDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcUGF0aWVudERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/PatientSuccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcUGF0aWVudFN1Y2Nlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/ViewBills.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcVmlld0JpbGxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Hospital/ViewPatients.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9zcGl0YWxcVmlld1BhdGllbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/ClaimDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXENsYWltRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/FraudAnalysis.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXEZyYXVkQW5hbHlzaXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/VerificationResult.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXFZlcmlmaWNhdGlvblJlc3VsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/VerifyBlockchainHash.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXFZlcmlmeUJsb2NrY2hhaW5IYXNoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/VerifyClaim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXFZlcmlmeUNsYWltLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Insurance/ViewClaims.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlXFZpZXdDbGFpbXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/BillDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxCaWxsRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/VerifyBlockchain.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxWZXJpZnlCbG9ja2NoYWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/VerifyData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxWZXJpZnlEYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/ViewBills.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxWaWV3QmlsbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/ViewClaims.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxWaWV3Q2xhaW1zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/ViewNFT.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxWaWV3TkZULmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Patient/ViewRecords.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxWaWV3UmVjb3Jkcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Shared/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WaWV3SW1wb3J0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SHARJAH LAPTOPS/OneDrive/Desktop/HMS_Blockchain_Project/BlockchainPatientData/Views/Shared/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WaWV3U3RhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

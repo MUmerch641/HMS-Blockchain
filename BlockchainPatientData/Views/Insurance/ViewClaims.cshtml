@@ -1,0 +1,157 @@
+@model List<BlockchainPatientData.Models.InsuranceClaim>
+@{
+    ViewData["Title"] = "View Claims";
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 30px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        <div style="background: #FFFFFF; border-radius: 10px; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08); overflow: hidden;">
+            
+            <!-- Header -->
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 35px 30px; color: white;">
+                <h2 style="margin: 0 0 10px; font-size: clamp(1.5rem, 3vw, 1.85rem); font-weight: 600;">📋 Insurance Claims</h2>
+                <p style="margin: 0; opacity: 0.95; font-size: clamp(0.9rem, 2vw, 1rem);">Review and process all submitted claims</p>
+            </div>
+
+            <div style="padding: 30px;">
+                @if (ViewBag.Error != null)
+                {
+                    <div style="background: #FEF2F2; color: #E74C3C; padding: 16px 20px; border-radius: 8px; border-left: 4px solid #E74C3C; margin-bottom: 25px; font-size: 0.95rem;">
+                        <strong>❌ Error:</strong> @ViewBag.Error
+                    </div>
+                }
+
+                @if (Model == null || !Model.Any())
+                {
+                    <div style="text-align: center; padding: 80px 20px;">
+                        <div style="font-size: clamp(3rem, 8vw, 4rem); margin-bottom: 20px;">📭</div>
+                        <h3 style="color: #2C3E50; margin-bottom: 12px; font-size: clamp(1.25rem, 3vw, 1.5rem);">No Claims Found</h3>
+                        <p style="color: #7F8C8D; margin: 0; font-size: clamp(0.9rem, 2vw, 1rem);">No insurance claims have been submitted yet.</p>
+                    </div>
+                }
+                else
+                {
+                    <!-- Summary Stats -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px;">
+                        <div style="background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%); padding: 22px; border-radius: 8px; color: white;">
+                            <div style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Total Claims</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@Model.Count</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #F1C40F 0%, #F39C12 100%); padding: 22px; border-radius: 8px; color: white;">
+                            <div style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Pending</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@Model.Count(c => c.Status == "Pending")</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #3498DB 0%, #2980B9 100%); padding: 22px; border-radius: 8px; color: white;">
+                            <div style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Under Review</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@Model.Count(c => c.Status == "Under Review")</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #16A085 0%, #138D75 100%); padding: 22px; border-radius: 8px; color: white;">
+                            <div style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Approved</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@Model.Count(c => c.Status == "Approved")</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%); padding: 22px; border-radius: 8px; color: white;">
+                            <div style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Rejected</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@Model.Count(c => c.Status == "Rejected")</div>
+                        </div>
+                    </div>
+
+                    <!-- Claims Table -->
+                    <div style="overflow-x: auto; border-radius: 8px; border: 1px solid #E0E0E0;">
+                        <table style="width: 100%; border-collapse: collapse; background: white; font-size: clamp(0.85rem, 1.5vw, 0.95rem);">
+                            <thead>
+                                <tr style="background: #2C3E50; color: white;">
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Claim ID</th>
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Patient</th>
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Bill ID</th>
+                                    <th style="padding: 14px; text-align: right; font-weight: 600;">Amount</th>
+                                    <th style="padding: 14px; text-align: center; font-weight: 600;">Status</th>
+                                    <th style="padding: 14px; text-align: center; font-weight: 600;">Risk Score</th>
+                                    <th style="padding: 14px; text-align: center; font-weight: 600;">Auto-Triggered</th>
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Date</th>
+                                    <th style="padding: 14px; text-align: center; font-weight: 600;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var claim in Model)
+                                {
+                                    var fraudResult = ViewBag.ClaimRisks != null && ViewBag.ClaimRisks.ContainsKey(claim.ClaimID) 
+                                        ? ViewBag.ClaimRisks[claim.ClaimID] 
+                                        : null;
+                                    var riskScore = fraudResult?.RiskScore ?? 0;
+                                    
+                                    string riskColor, riskBg, riskText;
+                                    if (riskScore >= 70) { riskColor = "#E74C3C"; riskBg = "#FEF2F2"; riskText = "🔴 HIGH"; }
+                                    else if (riskScore >= 50) { riskColor = "#E67E22"; riskBg = "#FEF5E7"; riskText = "🟠 MEDIUM"; }
+                                    else if (riskScore >= 30) { riskColor = "#F1C40F"; riskBg = "#FFFBEA"; riskText = "🟡 LOW"; }
+                                    else { riskColor = "#16A085"; riskBg = "#E8F8F5"; riskText = "🟢 SAFE"; }
+                                    
+                                    <tr style="border-bottom: 1px solid #F0F0F0; transition: background-color 0.2s;"
+                                        onmouseover="this.style.backgroundColor='#F5F6FA'"
+                                        onmouseout="this.style.backgroundColor='white'">
+                                        <td style="padding: 14px; font-weight: 600; color: #0078D7;">#@claim.ClaimID</td>
+                                        <td style="padding: 14px; color: #2C3E50;">Patient #@claim.PatientID</td>
+                                        <td style="padding: 14px; color: #2C3E50;">Bill #@claim.BillID</td>
+                                        <td style="padding: 14px; text-align: right; font-weight: 600; color: #2C3E50;">$@claim.Amount.ToString("N2")</td>
+                                        <td style="padding: 14px; text-align: center;">
+                                            @if (claim.Status == "Approved")
+                                            {
+                                                <span style="background: #E8F8F5; color: #16A085; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">✅ Approved</span>
+                                            }
+                                            else if (claim.Status == "Rejected")
+                                            {
+                                                <span style="background: #FEF2F2; color: #E74C3C; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">❌ Rejected</span>
+                                            }
+                                            else if (claim.Status == "Under Review")
+                                            {
+                                                <span style="background: #EBF5FB; color: #3498DB; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">🔍 Under Review</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="background: #FFFBEA; color: #F39C12; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">⏳ Pending</span>
+                                            }
+                                        </td>
+                                        <td style="padding: 14px; text-align: center;">
+                                            <div style="background: @riskBg; color: @riskColor; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block;">
+                                                @riskText
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: #7F8C8D; margin-top: 4px;">@riskScore%</div>
+                                        </td>
+                                        <td style="padding: 14px; text-align: center;">
+                                            @if (claim.IsAutoTriggered)
+                                            {
+                                                <span style="color: #16A085; font-weight: 600;">🤖 Yes</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: #7F8C8D;">Manual</span>
+                                            }
+                                        </td>
+                                        <td style="padding: 14px; color: #7F8C8D; font-size: 0.9rem;">@claim.ClaimDate.ToString("MMM dd, yyyy")</td>
+                                        <td style="padding: 14px; text-align: center;">
+                                            <a href="/Insurance/ClaimDetails/@claim.ClaimID" 
+                                               style="background: #0078D7; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; display: inline-block; transition: all 0.3s;"
+                                               onmouseover="this.style.backgroundColor='#005A9E'"
+                                               onmouseout="this.style.backgroundColor='#0078D7'">
+                                                View Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <!-- Actions -->
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="/Insurance/Dashboard" 
+                       style="display: inline-block; background: #7F8C8D; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s;"
+                       onmouseover="this.style.backgroundColor='#6C7A89'"
+                       onmouseout="this.style.backgroundColor='#7F8C8D'">
+                        ← Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

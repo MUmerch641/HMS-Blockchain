@@ -1,0 +1,137 @@
+@model BlockchainPatientData.Models.Patient
+@{
+    ViewData["Title"] = "Patient Dashboard";
+    var bills = ViewBag.Bills as List<BlockchainPatientData.Models.Bill> ?? new List<BlockchainPatientData.Models.Bill>();
+    var claims = ViewBag.Claims as List<BlockchainPatientData.Models.InsuranceClaim> ?? new List<BlockchainPatientData.Models.InsuranceClaim>();
+    var recentBills = ViewBag.RecentBills as List<BlockchainPatientData.Models.Bill> ?? new List<BlockchainPatientData.Models.Bill>();
+}
+
+<div style="background: #F5F6FA; min-height: 100vh; padding: 30px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        
+        <!-- Welcome Header -->
+        <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h1 style="font-size: clamp(1.75rem, 4vw, 2.25rem); color: #2C3E50; font-weight: 600; margin: 0 0 8px 0;">
+                        Welcome, @Model.Name! 👋
+                    </h1>
+                    <p style="font-size: clamp(0.95rem, 2vw, 1.05rem); color: #7F8C8D; margin: 0;">Your personal health dashboard</p>
+                </div>
+                <a href="/" 
+                   style="background: #E74C3C; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;"
+                   onmouseover="this.style.backgroundColor='#C0392B'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.backgroundColor='#E74C3C'; this.style.transform='translateY(0)'">
+                    🚪 Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- NFT Health ID Banner -->
+        <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 25px; border-radius: 12px; color: white; margin-bottom: 30px; text-align: center; box-shadow: 0 2px 12px rgba(0,120,215,0.2);">
+            <div style="opacity: 0.9; margin-bottom: 8px; font-size: 0.95rem;">🎫 Your NFT Health ID</div>
+            <div style="font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 1px;">@Model.NFT_ID</div>
+        </div>
+
+        <!-- Statistics -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); border-left: 4px solid #0078D7; transition: all 0.3s;"
+                 onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(0,120,215,0.15)'"
+                 onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                <div style="color: #7F8C8D; margin-bottom: 8px; font-size: 0.9rem; font-weight: 500;">💰 Total Bills</div>
+                <div style="font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 700; color: #2C3E50;">$@ViewBag.TotalBills.ToString("N0")</div>
+            </div>
+            <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); border-left: 4px solid #16A085; transition: all 0.3s;"
+                 onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(22,160,133,0.15)'"
+                 onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                <div style="color: #7F8C8D; margin-bottom: 8px; font-size: 0.9rem; font-weight: 500;">📋 Active Claims</div>
+                <div style="font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 700; color: #2C3E50;">@claims.Count</div>
+            </div>
+            <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); border-left: 4px solid #10B981; transition: all 0.3s;"
+                 onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(16,185,129,0.15)'"
+                 onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                <div style="color: #7F8C8D; margin-bottom: 8px; font-size: 0.9rem; font-weight: 500;">💳 Claim Amount</div>
+                <div style="font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 700; color: #10B981;">$@ViewBag.TotalClaims.ToString("N0")</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <a href="/Patient/ViewRecords/@Model.PatientID" style="text-decoration: none;">
+                <div style="background: white; border-radius: 12px; padding: 30px 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); transition: all 0.3s; border: 2px solid transparent; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;"
+                     onmouseover="this.style.borderColor='#0078D7'; this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 20px rgba(0,120,215,0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                    <div style="font-size: clamp(3rem, 7vw, 3.5rem); margin-bottom: 15px;">📄</div>
+                    <h3 style="color: #2C3E50; margin: 0 0 8px 0; font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 600;">View Records</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: 0.9rem;">Medical history</p>
+                </div>
+            </a>
+            <a href="/Patient/ViewBills/@Model.PatientID" style="text-decoration: none;">
+                <div style="background: white; border-radius: 12px; padding: 30px 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); transition: all 0.3s; border: 2px solid transparent; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;"
+                     onmouseover="this.style.borderColor='#16A085'; this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 20px rgba(22,160,133,0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                    <div style="font-size: clamp(3rem, 7vw, 3.5rem); margin-bottom: 15px;">💰</div>
+                    <h3 style="color: #2C3E50; margin: 0 0 8px 0; font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 600;">View Bills</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: 0.9rem;">Billing history</p>
+                </div>
+            </a>
+            <a href="/Patient/ViewClaims/@Model.PatientID" style="text-decoration: none;">
+                <div style="background: white; border-radius: 12px; padding: 30px 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); transition: all 0.3s; border: 2px solid transparent; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;"
+                     onmouseover="this.style.borderColor='#F39C12'; this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 20px rgba(243,156,18,0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                    <div style="font-size: clamp(3rem, 7vw, 3.5rem); margin-bottom: 15px;">📋</div>
+                    <h3 style="color: #2C3E50; margin: 0 0 8px 0; font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 600;">View Claims</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: 0.9rem;">Insurance claims</p>
+                </div>
+            </a>
+            <a href="/Patient/ViewNFT/@Model.PatientID" style="text-decoration: none;">
+                <div style="background: white; border-radius: 12px; padding: 30px 25px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); transition: all 0.3s; border: 2px solid transparent; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;"
+                     onmouseover="this.style.borderColor='#8E44AD'; this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 20px rgba(142,68,173,0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(44,62,80,0.08)'">
+                    <div style="font-size: clamp(3rem, 7vw, 3.5rem); margin-bottom: 15px;">🎫</div>
+                    <h3 style="color: #2C3E50; margin: 0 0 8px 0; font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 600;">NFT Health ID</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: 0.9rem;">Digital identity</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Recent Bills -->
+        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden; margin-bottom: 30px;">
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 22px 28px; color: white;">
+                <h2 style="margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem); font-weight: 600;">📊 Recent Bills</h2>
+            </div>
+            <div style="padding: 25px;">
+                @if (!recentBills.Any())
+                {
+                    <p style="text-align: center; color: #7F8C8D; padding: 40px 20px;">No bills available</p>
+                }
+                else
+                {
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.5vw, 0.95rem);">
+                        <thead>
+                            <tr style="background: #2C3E50; color: white;">
+                                <th style="padding: 14px; text-align: left; font-weight: 600;">Description</th>
+                                <th style="padding: 14px; text-align: right; font-weight: 600;">Amount</th>
+                                <th style="padding: 14px; text-align: left; font-weight: 600;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var bill in recentBills)
+                            {
+                                <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s;"
+                                    onmouseover="this.style.backgroundColor='#F7FAFC'"
+                                    onmouseout="this.style.backgroundColor='white'">
+                                    <td style="padding: 14px; color: #2C3E50; font-weight: 500;">@bill.Description</td>
+                                    <td style="padding: 14px; text-align: right; font-weight: 600; color: #2C3E50;">$@bill.Amount.ToString("N2")</td>
+                                    <td style="padding: 14px; color: #7F8C8D;">@bill.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

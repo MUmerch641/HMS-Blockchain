@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "vSzBjOU9N104QaJtIK1OaQ5kDYSEGC1IDhxsbo5VuG4=",
+  "Source": "BlockchainPatientData",
+  "BasePath": "_content/BlockchainPatientData",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "BlockchainPatientData\\wwwroot",
+      "Source": "BlockchainPatientData",
+      "ContentRoot": "C:\\Users\\SHARJAH LAPTOPS\\OneDrive\\Desktop\\HMS_Blockchain_Project\\BlockchainPatientData\\wwwroot\\",
+      "BasePath": "_content/BlockchainPatientData",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\SHARJAH LAPTOPS\\OneDrive\\Desktop\\HMS_Blockchain_Project\\BlockchainPatientData\\wwwroot\\css\\site.css",
+      "SourceId": "BlockchainPatientData",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHARJAH LAPTOPS\\OneDrive\\Desktop\\HMS_Blockchain_Project\\BlockchainPatientData\\wwwroot\\",
+      "BasePath": "_content/BlockchainPatientData",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\SHARJAH LAPTOPS\\OneDrive\\Desktop\\HMS_Blockchain_Project\\BlockchainPatientData\\wwwroot\\js\\site.js",
+      "SourceId": "BlockchainPatientData",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHARJAH LAPTOPS\\OneDrive\\Desktop\\HMS_Blockchain_Project\\BlockchainPatientData\\wwwroot\\",
+      "BasePath": "_content/BlockchainPatientData",
+      "RelativePath": "js/site.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\site.js"
+    }
+  ]
+}

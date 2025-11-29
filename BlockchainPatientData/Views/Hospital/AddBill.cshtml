@@ -1,0 +1,151 @@
+@{
+    ViewData["Title"] = "Create Bill";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body style="margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); min-height:100vh;">
+    
+    <div style="max-width:900px; margin:50px auto; padding:0 20px;">
+        <div style="background:#fff; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,0.12); overflow:hidden; border:1px solid #e2e8f0;">
+            
+            <!-- HEADER -->
+            <div style="background:linear-gradient(135deg, #198754 0%, #146c43 100%); color:#fff; padding:28px 20px; text-align:center; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%); pointer-events:none;"></div>
+                <h3 style="margin:0; font-size:2rem; font-weight:700; position:relative; z-index:1;">Create Patient Bill</h3>
+                <p style="margin:8px 0 0; font-size:1rem; opacity:0.9;">Securely generate & store on blockchain</p>
+            </div>
+
+            <!-- MAIN FORM -->
+            <div style="padding:35px;">
+
+                <!-- ERROR MESSAGE -->
+                @if (ViewBag.Error != null)
+                {
+                    <div style="background:#f8d7da; color:#721c24; padding:16px 20px; border-radius:12px; border-left:5px solid #dc3545; margin-bottom:25px; font-weight:500; display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:1.4rem;">Warning</span>
+                        <span>@ViewBag.Error</span>
+                    </div>
+                }
+
+                <form method="post" action="/Hospital/AddBill" style="display:grid; gap:22px;">
+
+                    <!-- PATIENT SELECT -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Select Patient <span style="color:#e53e3e;">*</span></label>
+                        <select name="patientId" required 
+                                style="width:100%; padding:13px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"8\" viewBox=\"0 0 12 8\"><path fill=\"%236b7280\" d=\"M0 0l6 8 6-8z\"/></svg>'); background-repeat:no-repeat; background-position:right 16px center;"
+                                onfocus="this.style.borderColor='#198754'; this.style.boxShadow='0 0 0 4px rgba(25,135,84,0.15)';"
+                                onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';">
+                            <option value="">-- Choose Patient --</option>
+                            @if (ViewBag.Patients != null)
+                            {
+                                @foreach (var patient in ViewBag.Patients)
+                                {
+                                    <option value="@patient.PatientID">
+                                        @patient.Name (ID: @patient.PatientID) - NFT: @patient.NFT_ID
+                                    </option>
+                                }
+                            }
+                        </select>
+                        <small style="color:#718096; font-size:0.86rem; margin-top:6px; display:block;">Select the patient for this bill</small>
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Bill Description <span style="color:#e53e3e;">*</span></label>
+                        <textarea name="description" rows="4" required placeholder="E.g., MRI Scan, Blood Test Panel, Emergency Surgery, Pharmacy Refill"
+                                  style="width:100%; padding:13px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; font-family:inherit; resize:vertical; background:#fff; transition:all .25s;"
+                                  onfocus="this.style.borderColor='#198754'; this.style.boxShadow='0 0 0 4px rgba(25,135,84,0.15)';"
+                                  onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';"></textarea>
+                    </div>
+
+                    <!-- AMOUNT -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Amount ($) <span style="color:#e53e3e;">*</span></label>
+                        <input type="number" name="amount" required step="0.01" min="0.01" placeholder="0.00" 
+                               style="width:100%; padding:13px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1.1rem; font-weight:500; background:#fff; transition:all .25s;"
+                               onfocus="this.style.borderColor='#198754'; this.style.boxShadow='0 0 0 4px rgba(25,135,84,0.15)';"
+                               onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                        <small style="color:#718096; font-size:0.86rem; margin-top:6px; display:block;">
+                            <strong>Note:</strong> Bills above <strong>$10,000</strong> will auto-trigger insurance claims
+                        </small>
+                    </div>
+
+                    <!-- HOSPITAL & DOCTOR -->
+                        <div>
+                            <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Hospital Name</label>
+                            <input type="text" name="hospitalName" value="City Hospital" placeholder="Enter hospital name"
+                                   style="width:100%; padding:13px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s;"
+                                   onfocus="this.style.borderColor='#198754'; this.style.boxShadow='0 0 0 4px rgba(25,135,84,0.15)';"
+                                   onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Doctor Name</label>
+                            <input type="text" name="doctorName" placeholder="Dr. Smith"
+                                   style="width:100%; padding:13px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s;"
+                                   onfocus="this.style.borderColor='#198754'; this.style.boxShadow='0 0 0 4px rgba(25,135,84,0.15)';"
+                                   onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';" />
+                        </div>
+
+                    <!-- BILL TYPE -->
+                    <div>
+                        <label style="display:block; margin-bottom:9px; font-weight:600; color:#1a202c; font-size:1.02rem;">Bill Type</label>
+                        <select name="billType"
+                                style="width:100%; padding:13px 16px; border:2px solid #cbd5e0; border-radius:10px; font-size:1rem; background:#fff; transition:all .25s; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"8\" viewBox=\"0 0 12 8\"><path fill=\"%236b7280\" d=\"M0 0l6 8 6-8z\"/></svg>'); background-repeat:no-repeat; background-position:right 16px center;"
+                                onfocus="this.style.borderColor='#198754'; this.style.boxShadow='0 0 0 4px rgba(25,135,84,0.15)';"
+                                onblur="this.style.borderColor='#cbd5e0'; this.style.boxShadow='none';">
+                            <option value="General">General Consultation</option>
+                            <option value="Diagnostic">Diagnostic Test</option>
+                            <option value="Imaging">X-Ray / MRI / CT</option>
+                            <option value="Surgery">Surgical Procedure</option>
+                            <option value="Emergency">Emergency Care</option>
+                            <option value="Pharmacy">Pharmacy / Medication</option>
+                        </select>
+                    </div>
+
+                    <!-- SMART CONTRACT INFO -->
+                    <div style="background:linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%); color:#856404; padding:18px 22px; border-radius:12px; border-left:5px solid #ffc107; margin:25px 0; font-weight:500;">
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                            <span style="font-size:1.5rem;">Smart Contract</span>
+                            <strong>Auto-Activated Features</strong>
+                        </div>
+                        <ul style="margin:8px 0 0; padding-left:22px; font-size:0.95rem; line-height:1.6;">
+                            <li>SHA256 hash stored immutably on blockchain</li>
+                            <li>Insurance claim auto-triggered if > $10,000</li>
+                            <li>AI fraud detection scans transaction in real-time</li>
+                            <li>NFT Health ID ensures patient authenticity</li>
+                        </ul>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div style="display:grid; gap:14px; margin-top:10px;">
+                        <button type="submit"
+                                style="width:100%; padding:16px; background:linear-gradient(135deg, #198754 0%, #146c43 100%); color:#fff; border:none; border-radius:12px; font-size:1.15rem; font-weight:700; cursor:pointer; transition:all .3s; box-shadow:0 4px 15px rgba(25,135,84,0.3); position:relative; overflow:hidden;"
+                                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(25,135,84,0.4)';"
+                                onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 15px rgba(25,135,84,0.3)';">
+                            <span style="position:relative; z-index:2;">Create Bill & Add to Blockchain</span>
+                            <span style="position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition:0.6s;" 
+                                  onmouseover="this.parentNode.querySelector('span').style.left='100%'" 
+                                  onmouseout="this.parentNode.querySelector('span').style.left='-100%'"></span>
+                        </button>
+
+                        <a href="/Hospital/Dashboard"
+                           style="display:block; text-align:center; padding:13px; background:#718096; color:#fff; border-radius:12px; text-decoration:none; font-weight:600; transition:all .3s;"
+                           onmouseover="this.style.background='#5a677a'; this.style.transform='translateY(-1px)';"
+                           onmouseout="this.style.background='#718096'; this.style.transform='';">
+                            Cancel & Return to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

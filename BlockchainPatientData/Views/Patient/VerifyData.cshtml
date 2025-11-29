@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Data Verification";
+    var bill = ViewBag.Bill as BlockchainPatientData.Models.Bill;
+    var isValid = ViewBag.IsValid ?? false;
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 40px 20px; display: flex; align-items: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="max-width: 800px; margin: 0 auto; width: 100%;">
+        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, @(isValid ? "#10B981, #059669" : "#EF4444, #DC2626")); padding: 40px; text-align: center; color: white;">
+                <div style="font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 15px;">@(isValid ? "✅" : "⚠️")</div>
+                <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 600;">Data Integrity Verification</h2>
+                <p style="margin: 0; opacity: 0.9; font-size: clamp(0.95rem, 2vw, 1.1rem);">@ViewBag.Message</p>
+            </div>
+
+            <div style="padding: 40px;">
+                @if (bill != null)
+                {
+                    <div style="background: #F7FAFC; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                        <h3 style="margin: 0 0 20px 0; color: #2C3E50;">Bill Information</h3>
+                        <div style="margin-bottom: 15px;">
+                            <span style="color: #7F8C8D;">Bill ID:</span>
+                            <strong style="color: #2C3E50; margin-left: 10px;">#@bill.BillID</strong>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <span style="color: #7F8C8D;">Description:</span>
+                            <strong style="color: #2C3E50; margin-left: 10px;">@bill.Description</strong>
+                        </div>
+                        <div>
+                            <span style="color: #7F8C8D;">Amount:</span>
+                            <strong style="color: #2C3E50; margin-left: 10px;">$@bill.Amount.ToString("N2")</strong>
+                        </div>
+                    </div>
+
+                    <div style="background: @(isValid ? "#D1FAE5" : "#FEE2E2"); padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid @(isValid ? "#10B981" : "#EF4444");">
+                        <div style="color: #2C3E50; font-weight: 600; margin-bottom: 10px;">Stored Hash</div>
+                        <div style="font-family: 'Courier New', monospace; color: @(isValid ? "#047857" : "#991B1B"); word-break: break-all; font-size: 0.85rem;">@ViewBag.StoredHash</div>
+                    </div>
+
+                    <div style="background: @(isValid ? "#D1FAE5" : "#FEE2E2"); padding: 20px; border-radius: 12px; border-left: 4px solid @(isValid ? "#10B981" : "#EF4444");">
+                        <div style="color: #2C3E50; font-weight: 600; margin-bottom: 10px;">Recalculated Hash</div>
+                        <div style="font-family: 'Courier New', monospace; color: @(isValid ? "#047857" : "#991B1B"); word-break: break-all; font-size: 0.85rem;">@ViewBag.RecalculatedHash</div>
+                    </div>
+                }
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="/Patient/Dashboard/@bill?.PatientID" style="display: inline-block; background: #0078D7; color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500; transition: all 0.3s;">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

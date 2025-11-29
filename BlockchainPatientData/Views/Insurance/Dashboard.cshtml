@@ -1,0 +1,167 @@
+@model List<BlockchainPatientData.Models.InsuranceClaim>
+@{
+    ViewData["Title"] = "Insurance Dashboard";
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 30px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        
+        <!-- Header -->
+        <div style="background: #FFFFFF; border-radius: 12px; padding: 35px 30px; margin-bottom: 30px; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h1 style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; margin: 0 0 12px; color: #2C3E50;">🏥 Insurance Portal</h1>
+                    <p style="font-size: clamp(0.95rem, 2vw, 1.05rem); margin: 0; color: #7F8C8D;">Claim verification and fraud detection system</p>
+                </div>
+                <a href="/Insurance/Login" 
+                   style="background: #E74C3C; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem;"
+                   onmouseover="this.style.backgroundColor='#C0392B'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.backgroundColor='#E74C3C'; this.style.transform='translateY(0)'">
+                    🚪 Logout
+                </a>
+            </div>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div style="background: #FEF2F2; color: #E74C3C; padding: 18px 20px; border-radius: 10px; border-left: 4px solid #E74C3C; margin-bottom: 25px; font-size: clamp(0.9rem, 1.8vw, 0.95rem);">
+                <strong>❌ Error:</strong> @ViewBag.Error
+            </div>
+        }
+
+        <!-- Statistics Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 35px;">
+            <div style="background: #FFFFFF; border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-left: 4px solid #2C3E50; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">📊 Total Claims</div>
+                <div style="color: #2C3E50; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@ViewBag.TotalClaims</div>
+            </div>
+
+            <div style="background: #FFFFFF; border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-left: 4px solid #F1C40F; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">⏳ Pending Claims</div>
+                <div style="color: #2C3E50; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@ViewBag.PendingClaims</div>
+            </div>
+
+            <div style="background: #FFFFFF; border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-left: 4px solid #16A085; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">✅ Approved Claims</div>
+                <div style="color: #2C3E50; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@ViewBag.ApprovedClaims</div>
+            </div>
+
+            <div style="background: #FFFFFF; border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-left: 4px solid #E74C3C; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                <div style="color: #7F8C8D; font-size: 0.85rem; margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">🚨 Fraud Suspected</div>
+                <div style="color: #2C3E50; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">@ViewBag.FraudulentClaims</div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #16A085 0%, #138D75 100%); border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); color: white; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(22, 160, 133, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                <div style="opacity: 0.95; font-size: 0.85rem; margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">💰 Total Amount</div>
+                <div style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">$@ViewBag.TotalAmount.ToString("N0")</div>
+            </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 35px;">
+            <a href="/Insurance/ViewClaims" style="text-decoration: none;">
+                <div style="background: #FFFFFF; border-radius: 10px; padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s; border: 2px solid transparent; cursor: pointer;"
+                     onmouseover="this.style.borderColor='#0078D7'; this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0, 120, 215, 0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                    <div style="font-size: clamp(2.5rem, 5vw, 3rem); margin-bottom: 16px;">📋</div>
+                    <h3 style="color: #2C3E50; margin-bottom: 10px; font-size: clamp(1.1rem, 2vw, 1.25rem); font-weight: 600;">View All Claims</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: clamp(0.9rem, 1.8vw, 0.95rem); line-height: 1.5;">Review and process insurance claims</p>
+                </div>
+            </a>
+
+            <a href="/Insurance/VerifyClaim" style="text-decoration: none;">
+                <div style="background: #FFFFFF; border-radius: 10px; padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s; border: 2px solid transparent; cursor: pointer;"
+                     onmouseover="this.style.borderColor='#16A085'; this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(22, 160, 133, 0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                    <div style="font-size: clamp(2.5rem, 5vw, 3rem); margin-bottom: 16px;">✅</div>
+                    <h3 style="color: #2C3E50; margin-bottom: 10px; font-size: clamp(1.1rem, 2vw, 1.25rem); font-weight: 600;">Verify Claim</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: clamp(0.9rem, 1.8vw, 0.95rem); line-height: 1.5;">Check patient eligibility and history</p>
+                </div>
+            </a>
+
+            <a href="/Insurance/FraudAnalysis" style="text-decoration: none;">
+                <div style="background: #FFFFFF; border-radius: 10px; padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s; border: 2px solid transparent; cursor: pointer;"
+                     onmouseover="this.style.borderColor='#E74C3C'; this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(231, 76, 60, 0.15)'"
+                     onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                    <div style="font-size: clamp(2.5rem, 5vw, 3rem); margin-bottom: 16px;">🚨</div>
+                    <h3 style="color: #2C3E50; margin-bottom: 10px; font-size: clamp(1.1rem, 2vw, 1.25rem); font-weight: 600;">Fraud Analysis</h3>
+                    <p style="color: #7F8C8D; margin: 0; font-size: clamp(0.9rem, 1.8vw, 0.95rem); line-height: 1.5;">AI-powered fraud detection reports</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Recent Claims Table -->
+        <div style="background: #FFFFFF; border-radius: 12px; box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #16A085 0%, #138D75 100%); padding: 28px 30px; color: white;">
+                <h2 style="margin: 0; font-size: clamp(1.25rem, 2.5vw, 1.5rem); font-weight: 600;">📋 Recent Claims</h2>
+            </div>
+
+            <div style="padding: 28px;">
+                @if (Model == null || !Model.Any())
+                {
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <div style="font-size: clamp(3rem, 6vw, 4rem); margin-bottom: 18px;">📭</div>
+                        <h3 style="color: #2C3E50; margin-bottom: 12px; font-size: clamp(1.2rem, 2.5vw, 1.4rem);">No Claims Available</h3>
+                        <p style="color: #7F8C8D; margin: 0; font-size: clamp(0.9rem, 1.8vw, 1rem);">No insurance claims have been submitted yet.</p>
+                    </div>
+                }
+                else
+                {
+                    <div style="overflow-x: auto; border-radius: 8px; border: 1px solid #E0E0E0;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.5vw, 0.95rem);">
+                            <thead>
+                                <tr style="background: #2C3E50; color: white;">
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Claim ID</th>
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Patient ID</th>
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Bill ID</th>
+                                    <th style="padding: 14px; text-align: right; font-weight: 600;">Amount</th>
+                                    <th style="padding: 14px; text-align: center; font-weight: 600;">Status</th>
+                                    <th style="padding: 14px; text-align: center; font-weight: 600;">Fraud Alert</th>
+                                    <th style="padding: 14px; text-align: left; font-weight: 600;">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody style="background: #FFFFFF;">
+                                @foreach (var claim in Model.Take(10))
+                                {
+                                    <tr style="border-bottom: 1px solid #F0F0F0; transition: background-color 0.2s;"
+                                        onmouseover="this.style.backgroundColor='#F5F6FA'"
+                                        onmouseout="this.style.backgroundColor='#FFFFFF'">
+                                        <td style="padding: 14px; font-weight: 600; color: #0078D7;">#@claim.ClaimID</td>
+                                        <td style="padding: 14px; color: #2C3E50;">Patient #@claim.PatientID</td>
+                                        <td style="padding: 14px; color: #2C3E50;">Bill #@claim.BillID</td>
+                                        <td style="padding: 14px; text-align: right; font-weight: 600; color: #2C3E50;">$@claim.Amount.ToString("N2")</td>
+                                        <td style="padding: 14px; text-align: center;">
+                                            @if (claim.Status == BlockchainPatientData.Models.InsuranceClaim.ClaimStatus.Approved)
+                                            {
+                                                <span style="background: #E8F8F5; color: #16A085; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">✅ Approved</span>
+                                            }
+                                            else if (claim.Status == BlockchainPatientData.Models.InsuranceClaim.ClaimStatus.Rejected)
+                                            {
+                                                <span style="background: #FEF2F2; color: #E74C3C; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">❌ Rejected</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="background: #FFFBEA; color: #F39C12; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">⏳ Pending</span>
+                                            }
+                                        </td>
+                                        <td style="padding: 14px; text-align: center;">
+                                            @if (claim.IsFraudSuspected)
+                                            {
+                                                <span style="background: #FEF2F2; color: #E74C3C; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">🚨 Yes</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="background: #E8F8F5; color: #16A085; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">✓ Clear</span>
+                                            }
+                                        </td>
+                                        <td style="padding: 14px; color: #7F8C8D; font-size: 0.9rem;">@claim.ClaimDate.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

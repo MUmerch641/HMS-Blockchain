@@ -1,0 +1,210 @@
+@{
+    ViewData["Title"] = "Blockchain Integrity Test";
+    var bills = ViewBag.Bills as List<BlockchainPatientData.Models.Bill> ?? new List<BlockchainPatientData.Models.Bill>();
+    var validationResults = ViewBag.ValidationResults as Dictionary<int, bool> ?? new Dictionary<int, bool>();
+    var ledgerEntries = ViewBag.LedgerEntries as List<BlockchainPatientData.Models.LedgerEntry> ?? new List<BlockchainPatientData.Models.LedgerEntry>();
+    var chainValidation = ViewBag.ChainValidation as Dictionary<int, bool> ?? new Dictionary<int, bool>();
+    var isFullChainValid = ViewBag.IsFullChainValid ?? false;
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        
+        <!-- Header -->
+        <div style="background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden; margin-bottom: 30px;">
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 30px; color: white;">
+                <h2 style="margin: 0 0 10px 0; font-size: 2rem; font-weight: 600;">🔗 Blockchain Integrity Verification</h2>
+                <p style="margin: 0; opacity: 0.9;">Test blockchain chain linkage and data tampering detection</p>
+            </div>
+
+            <div style="padding: 30px; background: white;">
+                <div style="background: #E7F3FF; color: #0C5460; padding: 20px; border-radius: 12px; border-left: 4px solid #0078D7; margin-bottom: 25px;">
+                    <h4 style="margin: 0 0 10px 0; color: #2C3E50;">🧪 How This Works:</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8; color: #2C3E50;">
+                        <li><strong>Block #1:</strong> Genesis block (links to 0000...0000)</li>
+                        <li><strong>Block #2:</strong> Links to Block #1's hash</li>
+                        <li><strong>Block #3:</strong> Links to Block #2's hash</li>
+                        <li><strong>Chain Effect:</strong> Tampering ANY block breaks ALL subsequent blocks!</li>
+                    </ul>
+                </div>
+
+                <div style="background: #FFF3CD; color: #856404; padding: 20px; border-radius: 12px; border-left: 4px solid #FFC107; margin-bottom: 25px;">
+                    <h4 style="margin: 0 0 10px 0; color: #2C3E50;">🔗 TRUE Blockchain Concept:</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8; color: #2C3E50;">
+                        <li><strong>Block #1:</strong> Hash includes Genesis (0000...0000)</li>
+                        <li><strong>Block #2:</strong> Hash includes Block #1's hash → Creates CHAIN!</li>
+                        <li><strong>Block #3:</strong> Hash includes Block #2's hash → Chain continues!</li>
+                        <li><strong>If you tamper Block #1:</strong> ALL blocks show ❌ BROKEN (chain effect!)</li>
+                    </ul>
+                </div>
+
+                @if (isFullChainValid)
+                {
+                    <div style="background: #D1FAE5; color: #065F46; padding: 20px; border-radius: 12px; border-left: 4px solid #10B981; margin-bottom: 30px;">
+                        <h4 style="margin: 0; color: #2C3E50;">✅ BLOCKCHAIN STATUS: VALID CHAIN</h4>
+                        <p style="margin: 10px 0 0 0; color: #2C3E50;">All blocks are properly linked and data is intact!</p>
+                    </div>
+                }
+                else
+                {
+                    <div style="background: #FEE2E2; color: #991B1B; padding: 20px; border-radius: 12px; border-left: 4px solid #EF4444; margin-bottom: 30px;">
+                        <h4 style="margin: 0; color: #2C3E50;">❌ BLOCKCHAIN STATUS: CHAIN BROKEN!</h4>
+                        <p style="margin: 10px 0 0 0; color: #2C3E50;">One or more blocks have been tampered with or chain is broken!</p>
+                    </div>
+                }
+
+                @if (!bills.Any())
+                {
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <h3 style="color: #4a5568;">No Bills to Validate</h3>
+                        <p style="color: #718096;">Create some bills first to test blockchain validation.</p>
+                    </div>
+                }
+                else
+                {
+                    <div style="overflow-x: auto; border-radius: 12px; border: 2px solid #E2E8F0; background: white;">
+                        <table style="width: 100%; border-collapse: collapse; background: white;">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); color: white;">
+                                    <th style="padding: 15px; text-align: center; font-weight: 600; width: 100px;">Block #</th>
+                                    <th style="padding: 15px; text-align: left; font-weight: 600;">Bill Details</th>
+                                    <th style="padding: 15px; text-align: left; font-weight: 600;">⛓️ Previous Hash</th>
+                                    <th style="padding: 15px; text-align: left; font-weight: 600;">🔒 Current Hash</th>
+                                    <th style="padding: 15px; text-align: center; font-weight: 600; width: 120px;">Chain Status</th>
+                                    <th style="padding: 15px; text-align: center; font-weight: 600; width: 120px;">Data Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var bill in bills)
+                                {
+                                    var ledger = ledgerEntries.FirstOrDefault(l => l.BillID == bill.BillID);
+                                    var isValid = validationResults.ContainsKey(bill.BillID) && validationResults[bill.BillID];
+                                    var isChainValid = chainValidation.ContainsKey(bill.BillID) && chainValidation[bill.BillID];
+                                    
+                                    var statusColor = isValid ? "#10b981" : "#ef4444";
+                                    var statusBg = isValid ? "#d1fae5" : "#fee2e2";
+                                    var statusIcon = isValid ? "✅" : "❌";
+                                    var statusText = isValid ? "VALID" : "INVALID";
+                                    
+                                    var chainColor = isChainValid ? "#10b981" : "#ef4444";
+                                    var chainBg = isChainValid ? "#d1fae5" : "#fee2e2";
+                                    var chainIcon = isChainValid ? "🔗" : "⛓️‍💥";
+                                    var chainText = isChainValid ? "LINKED" : "BROKEN";
+                                    
+                                    <tr style="border-bottom: 1px solid #E2E8F0; transition: background-color 0.2s;"
+                                        onmouseover="this.style.backgroundColor='#F7FAFC'"
+                                        onmouseout="this.style.backgroundColor='white'">
+                                        
+                                        <td style="padding: 15px; text-align: center;">
+                                            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); color: white; font-weight: bold; padding: 10px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 1.2rem;">
+                                                @(ledger?.BlockNumber ?? 0)
+                                            </div>
+                                        </td>
+                                        
+                                        <td style="padding: 15px;">
+                                            <div style="font-weight: 600; color: #0078D7; margin-bottom: 5px;">Bill #@bill.BillID</div>
+                                            <div style="color: #718096; font-size: 0.9rem;">Patient #@bill.PatientID</div>
+                                            <div style="color: #2C3E50; margin-top: 5px;">@bill.Description</div>
+                                            <div style="font-weight: 600; color: #2d3748; margin-top: 5px;">$@bill.Amount.ToString("N2")</div>
+                                        </td>
+                                        
+                                        <td style="padding: 15px;">
+                                            @if (ledger != null)
+                                            {
+                                                var prevHash = ledger.PreviousHash ?? "0000000000000000000000000000000000000000000000000000000000000000";
+                                                var isGenesis = prevHash.All(c => c == '0');
+                                                <div style="margin-bottom: 5px;">
+                                                    @if (isGenesis)
+                                                    {
+                                                        <span style="background: #FEF3C7; color: #92400E; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">
+                                                            🌟 GENESIS
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color: #718096; font-size: 0.85rem;">→ Block @(ledger.BlockNumber - 1)</span>
+                                                    }
+                                                </div>
+                                                <code style="background: #F7FAFC; padding: 8px 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.7rem; color: #2C3E50; display: block; word-break: break-all;" title="@prevHash">
+                                                    @prevHash.Substring(0, 20)...
+                                                </code>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: #CBD5E0;">N/A</span>
+                                            }
+                                        </td>
+                                        
+                                        <td style="padding: 15px;">
+                                            <code style="background: #F7FAFC; padding: 8px 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.7rem; color: #2C3E50; display: block; word-break: break-all;" title="@bill.Hash">
+                                                @bill.Hash?.Substring(0, 20)...
+                                            </code>
+                                        </td>
+                                        
+                                        <td style="padding: 15px; text-align: center;">
+                                            <div style="background: @chainBg; color: @chainColor; padding: 10px 15px; border-radius: 8px; font-weight: 600; display: inline-block; white-space: nowrap;">
+                                                @chainIcon @chainText
+                                            </div>
+                                        </td>
+                                        
+                                        <td style="padding: 15px; text-align: center;">
+                                            <div style="background: @statusBg; color: @statusColor; padding: 10px 15px; border-radius: 8px; font-weight: 600; display: inline-block; white-space: nowrap;">
+                                                @statusIcon @statusText
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Summary Stats -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
+                        <div style="background: #d1fae5; padding: 20px; border-radius: 12px; border-left: 4px solid #10b981;">
+                            <div style="color: #065f46; font-size: 0.9rem; margin-bottom: 5px;">✅ Verified Blocks</div>
+                            <div style="color: #047857; font-size: 2rem; font-weight: 700;">@validationResults.Count(v => v.Value)</div>
+                        </div>
+                        <div style="background: #fee2e2; padding: 20px; border-radius: 12px; border-left: 4px solid #ef4444;">
+                            <div style="color: #991b1b; font-size: 0.9rem; margin-bottom: 5px;">❌ Tampered Blocks</div>
+                            <div style="color: #dc2626; font-size: 2rem; font-weight: 700;">@validationResults.Count(v => !v.Value)</div>
+                        </div>
+                        <div style="background: #f7fafc; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea;">
+                            <div style="color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">📊 Total Blocks</div>
+                            <div style="color: #2d3748; font-size: 2rem; font-weight: 700;">@bills.Count</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 12px; color: white;">
+                            <div style="opacity: 0.9; font-size: 0.9rem; margin-bottom: 5px;">🔒 Integrity Score</div>
+                            <div style="font-size: 2rem; font-weight: 700;">
+                                @if (validationResults.Any())
+                                {
+                                    <text>@((validationResults.Count(v => v.Value) * 100 / validationResults.Count).ToString())%</text>
+                                }
+                                else
+                                {
+                                    <text>0%</text>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Actions -->
+                <div style="margin-top: 30px; text-align: center; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="/Patient/VerifyBlockchain" 
+                       style="display: inline-block; background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); color: white; padding: 14px 30px; border-radius: 10px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,215,0.3);"
+                       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,120,215,0.4)'"
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,120,215,0.3)'">
+                        🔄 Refresh Validation
+                    </a>
+                    <a href="/Hospital/Dashboard" 
+                       style="display: inline-block; background: #E2E8F0; color: #2C3E50; padding: 14px 30px; border-radius: 10px; text-decoration: none; font-weight: 600;"
+                       onmouseover="this.style.backgroundColor='#CBD5E0'; this.style.transform='translateY(-2px)'"
+                       onmouseout="this.style.backgroundColor='#E2E8F0'; this.style.transform='translateY(0)'">
+                        ← Back to Hospital Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

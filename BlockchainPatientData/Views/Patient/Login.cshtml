@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "Patient Login";
+}
+
+<div style="min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; max-width: 500px; width: 100%;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 15px;">👤</div>
+            <h2 style="margin: 0 0 10px 0; font-size: 2rem; font-weight: 600;">Patient Portal</h2>
+            <p style="margin: 0; opacity: 0.9;">Access your medical records securely</p>
+        </div>
+
+        <div style="padding: 40px 30px;">
+            @if (ViewBag.Error != null)
+            {
+                <div style="background-color: #fee2e2; color: #991b1b; padding: 15px 20px; border-radius: 10px; border-left: 4px solid #dc2626; margin-bottom: 25px;">
+                    <strong>❌ Error:</strong> @ViewBag.Error
+                </div>
+            }
+
+            <form method="post" action="/Patient/Login">
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #2d3748; font-size: 1rem;">
+                        🆔 Patient ID
+                    </label>
+                    <input type="number" name="patientId" required min="1" placeholder="Enter your Patient ID"
+                           style="width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: all 0.3s;"
+                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'"
+                           onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'" />
+                    <div style="margin-top: 8px; font-size: 0.85rem; color: #718096;">
+                        💡 Enter the Patient ID provided during registration
+                    </div>
+                </div>
+
+                <button type="submit"
+                        style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(102, 126, 234, 0.3)'">
+                    🔐 Access My Records
+                </button>
+            </form>
+
+            <!-- Info Section -->
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+                <h3 style="color: #2d3748; font-size: 1.1rem; margin-bottom: 15px; font-weight: 600;">
+                    🔒 Secure Blockchain Access
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 10px 0; color: #4a5568; display: flex; align-items: start;">
+                        <span style="color: #667eea; font-weight: bold; margin-right: 10px;">✓</span>
+                        <span>View your complete medical history</span>
+                    </li>
+                    <li style="padding: 10px 0; color: #4a5568; display: flex; align-items: start;">
+                        <span style="color: #667eea; font-weight: bold; margin-right: 10px;">✓</span>
+                        <span>Access NFT-based Health ID</span>
+                    </li>
+                    <li style="padding: 10px 0; color: #4a5568; display: flex; align-items: start;">
+                        <span style="color: #667eea; font-weight: bold; margin-right: 10px;">✓</span>
+                        <span>Check billing and insurance claims</span>
+                    </li>
+                    <li style="padding: 10px 0; color: #4a5568; display: flex; align-items: start;">
+                        <span style="color: #667eea; font-weight: bold; margin-right: 10px;">✓</span>
+                        <span>Verify data integrity on blockchain</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Need Help Section -->
+            <div style="margin-top: 30px; text-align: center; padding: 20px; background: #f7fafc; border-radius: 10px;">
+                <div style="color: #718096; font-size: 0.9rem; margin-bottom: 8px;">
+                    📞 Need help accessing your records?
+                </div>
+                <div style="color: #4a5568; font-weight: 500;">
+                    Contact Hospital: <a href="tel:+911234567890" style="color: #667eea; text-decoration: none;">+91 123 456 7890</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div style="padding: 0 30px 30px 30px;">
+            <a href="/" 
+               style="display: block; text-align: center; background: #f7fafc; color: #4a5568; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 500; transition: background-color 0.3s;"
+               onmouseover="this.style.backgroundColor='#e2e8f0'"
+               onmouseout="this.style.backgroundColor='#f7fafc'">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+</div>

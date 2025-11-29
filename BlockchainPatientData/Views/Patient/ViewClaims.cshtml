@@ -1,0 +1,88 @@
+@model List<BlockchainPatientData.Models.InsuranceClaim>
+@{
+    ViewData["Title"] = "View Claims";
+    var patient = ViewBag.Patient as BlockchainPatientData.Models.Patient;
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 30px; color: white;">
+                <h2 style="margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600;">📋 My Insurance Claims</h2>
+                <p style="margin: 5px 0 0 0; opacity: 0.9;">@patient?.Name - Claim status and history</p>
+            </div>
+
+            <div style="padding: 30px;">
+                @if (Model == null || !Model.Any())
+                {
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <h3 style="color: #2C3E50;">No Claims Found</h3>
+                        <p style="color: #7F8C8D;">You don't have any insurance claims yet.</p>
+                    </div>
+                }
+                else
+                {
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div style="background: #FFF4E6; padding: 20px; border-radius: 12px; border-left: 4px solid #F39C12;">
+                            <div style="color: #2C3E50; margin-bottom: 5px; font-weight: 500;">Total Claims</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2rem); font-weight: 700; color: #F39C12;">$@ViewBag.TotalClaimAmount.ToString("N0")</div>
+                        </div>
+                        <div style="background: #D1FAE5; padding: 20px; border-radius: 12px; border-left: 4px solid #10B981;">
+                            <div style="color: #2C3E50; margin-bottom: 5px; font-weight: 500;">Approved Amount</div>
+                            <div style="font-size: clamp(1.75rem, 4vw, 2rem); font-weight: 700; color: #10B981;">$@ViewBag.ApprovedAmount.ToString("N0")</div>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #2C3E50; color: white;">
+                                    <th style="padding: 15px; text-align: left;">Claim ID</th>
+                                    <th style="padding: 15px; text-align: left;">Bill ID</th>
+                                    <th style="padding: 15px; text-align: right;">Amount</th>
+                                    <th style="padding: 15px; text-align: center;">Status</th>
+                                    <th style="padding: 15px; text-align: left;">Claim Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var claim in Model)
+                                {
+                                    <tr style="border-bottom: 1px solid #e2e8f0;"
+                                        onmouseover="this.style.backgroundColor='#fffbeb'"
+                                        onmouseout="this.style.backgroundColor='white'">
+                                        <td style="padding: 15px; font-weight: 500; color: #f59e0b;">#@claim.ClaimID</td>
+                                        <td style="padding: 15px; color: #4a5568;">Bill #@claim.BillID</td>
+                                        <td style="padding: 15px; text-align: right; font-weight: 600; color: #2d3748;">$@claim.Amount.ToString("N2")</td>
+                                        <td style="padding: 15px; text-align: center;">
+                                            @if (claim.Status == "Approved")
+                                            {
+                                                <span style="background: #d1fae5; color: #065f46; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">✅ Approved</span>
+                                            }
+                                            else if (claim.Status == "Rejected")
+                                            {
+                                                <span style="background: #fee2e2; color: #991b1b; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">❌ Rejected</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="background: #fef3c7; color: #92400e; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">⏳ Pending</span>
+                                            }
+                                        </td>
+                                        <td style="padding: 15px; color: #718096;">@claim.ClaimDate.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="/Patient/Dashboard/@patient?.PatientID" style="display: inline-block; background: #e2e8f0; color: #4a5568; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;">
+                        ← Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

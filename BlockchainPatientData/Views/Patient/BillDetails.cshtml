@@ -1,0 +1,59 @@
+@model BlockchainPatientData.Models.Bill
+@{
+    ViewData["Title"] = "Bill Details";
+    var patient = ViewBag.Patient as BlockchainPatientData.Models.Patient;
+}
+
+<div style="min-height: 100vh; background: #F5F6FA; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #0078D7 0%, #005A9E 100%); padding: 30px; color: white;">
+                <h2 style="margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600;">💰 Bill Details</h2>
+            </div>
+
+            <div style="padding: 40px;">
+                <div style="background: #F7FAFC; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                    <h3 style="margin: 0 0 20px 0; color: #2C3E50;">Bill Information</h3>
+                    <div style="margin-bottom: 15px;">
+                        <span style="color: #7F8C8D;">Bill ID:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">#@Model.BillID</strong>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <span style="color: #7F8C8D;">Patient:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">@patient?.Name (ID: @Model.PatientID)</strong>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <span style="color: #7F8C8D;">Description:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">@Model.Description</strong>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <span style="color: #7F8C8D;">Amount:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px; font-size: 1.5rem;">$@Model.Amount.ToString("N2")</strong>
+                    </div>
+                    <div>
+                        <span style="color: #7F8C8D;">Date:</span>
+                        <strong style="color: #2C3E50; margin-left: 10px;">@Model.CreatedAt.ToString("MMMM dd, yyyy")</strong>
+                    </div>
+                </div>
+
+                <div style="background: #D1FAE5; padding: 20px; border-radius: 12px; border-left: 4px solid #10B981; margin-bottom: 25px;">
+                    <div style="color: #2C3E50; font-weight: 600; margin-bottom: 10px;">🔗 Blockchain Hash</div>
+                    <div style="font-family: 'Courier New', monospace; color: #047857; word-break: break-all; font-size: 0.9rem;">@Model.Hash</div>
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #A7F3D0;">
+                        <span style="color: #10B981; font-size: 0.9rem;">✅ Blockchain Verified</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="/Patient/ViewBills/@Model.PatientID" style="display: inline-block; background: #E2E8F0; color: #2C3E50; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500; margin-right: 10px; transition: all 0.3s;">
+                        ← Back to Bills
+                    </a>
+                    <a href="/Patient/Dashboard/@Model.PatientID" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; font-weight: 500;">
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
